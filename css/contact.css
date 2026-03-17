@@ -1,0 +1,101 @@
+/* ═══════════════════════════════════════════════
+   CONTACT + FOOTER
+   ═══════════════════════════════════════════════ */
+
+/* ─── Section ─── */
+#contact { padding: 120px 0 100px; }
+
+.contact-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ─── Card ─── */
+.contact-card {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.018)),
+    var(--bg2);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 60px 48px;
+  margin-top: 60px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 28px 72px rgba(0,0,0,0.22);
+}
+
+/* Ambient glow */
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 400px; height: 300px;
+  background: radial-gradient(circle, rgba(99,102,241,0.1), transparent 70%);
+  pointer-events: none;
+}
+
+/* ─── Grid of contact links ─── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  background: rgba(99,102,241,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text);
+  transition: var(--transition);
+  text-align: left;
+}
+.contact-item:hover {
+  border-color: var(--border2);
+  background: rgba(99,102,241,0.06);
+  transform: translateY(-2px);
+}
+
+.contact-item-icon {
+  width: 40px; height: 40px;
+  background: rgba(99,102,241,0.1);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.contact-item-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 2px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.contact-item-val { font-size: 0.88rem; font-weight: 500; }
+
+.contact-divider { width: 40px; height: 1px; background: var(--border); margin: 0 auto 32px; }
+
+/* ─── Footer ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 24px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  position: relative;
+  z-index: 1;
+}
+footer span { color: var(--accent2); }

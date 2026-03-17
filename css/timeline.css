@@ -1,0 +1,131 @@
+/* ═══════════════════════════════════════════════
+   PARCOURS — Timeline + Objectifs
+   ═══════════════════════════════════════════════ */
+
+/* ─── Timeline ─── */
+#parcours { padding: 120px 0; }
+
+.timeline {
+  position: relative;
+  padding-left: 32px;
+}
+
+/* Vertical line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--accent3) 20%,
+    var(--accent)  50%,
+    var(--accent3) 80%,
+    transparent
+  );
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 48px;
+  padding-left: 24px;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+
+/* Dot */
+.timeline-dot {
+  position: absolute;
+  left: -32px; top: 6px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 12px rgba(99,102,241,0.6);
+}
+.timeline-dot.current {
+  background: #4ade80;
+  box-shadow: 0 0 12px rgba(74,222,128,0.6);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.timeline-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent2);
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.timeline-card {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)),
+    var(--bg2);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 26px;
+  transition: var(--transition);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 20px 48px rgba(0,0,0,0.15);
+}
+.timeline-card:hover {
+  border-color: rgba(129,140,248,0.26);
+  transform: translateY(-4px);
+  box-shadow: 0 26px 60px rgba(0,0,0,0.2);
+}
+
+.timeline-role { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
+.timeline-org  { font-size: 0.85rem; color: var(--accent2); font-weight: 500; margin-bottom: 12px; }
+.timeline-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+/* ─── Objectifs ─── */
+#objectifs { padding: 120px 0; }
+
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.goal-card {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015)),
+    var(--bg2);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: var(--transition);
+  position: relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 22px 54px rgba(0,0,0,0.16);
+}
+.goal-card:hover {
+  border-color: rgba(129,140,248,0.28);
+  transform: translateY(-5px);
+  box-shadow: 0 30px 68px rgba(0,0,0,0.22);
+}
+
+.goal-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.goal-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 12px; }
+.goal-desc  { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+.goal-highlight {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 4px 12px;
+  background: rgba(99,102,241,0.08);
+  border: 1px solid var(--border2);
+  border-radius: 99px;
+  font-size: 0.75rem;
+  color: var(--accent2);
+  font-weight: 500;
+}

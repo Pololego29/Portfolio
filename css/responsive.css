@@ -1,0 +1,61 @@
+/* ═══════════════════════════════════════════════
+   RESPONSIVE — Breakpoints
+   ═══════════════════════════════════════════════ */
+
+/* ─── Tablet / Small Desktop ─── */
+@media (max-width: 900px) {
+  /* Navbar */
+  .nav-links  { display: none; }
+  .hamburger  { display: flex; }
+
+  /* Hero */
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .hero-content { max-width: none; padding-right: 0; }
+  .hero-content::after { width: 100%; }
+  .holo-wrap  { display: flex; justify-content: center; order: -1; }
+  .holo-card  { width: 260px; }
+  .hero-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  /* About */
+  .about-block           { grid-template-columns: 1fr; }
+  .badge-column          { border-left: none; border-top: 1px solid var(--border); min-height: 380px; }
+  .about-text            { padding: 40px 32px; }
+
+  /* Skills */
+  .skills-grid           { grid-template-columns: repeat(2, 1fr); }
+
+  /* Projects */
+  .projects-grid         { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+  .project-featured-visual { display: none; }
+
+  /* Goals */
+  .goals-grid            { grid-template-columns: 1fr; }
+
+  /* Apps */
+  .apps-grid             { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  /* Loading */
+  .loading-screen__content { padding: 24px; }
+  .loading-screen__meta    { flex-direction: column; align-items: flex-start; }
+
+  /* Layout */
+  .container { padding: 0 22px; }
+
+  /* Hero */
+  .holo-card  { width: 220px; }
+  .hero-title { max-width: none; }
+  .hero-stats { grid-template-columns: 1fr; gap: 28px; }
+  .stat-item  { padding: 18px 18px 16px; }
+
+  /* Skills & Apps */
+  .skills-grid { grid-template-columns: 1fr; }
+  .apps-grid   { grid-template-columns: 1fr; }
+
+  /* Contact */
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-card { padding: 36px 24px; }
+}
