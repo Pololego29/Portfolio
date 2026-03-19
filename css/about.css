@@ -31,7 +31,7 @@
 
 /* ─── Text column ─── */
 .about-text { padding: 64px; }
-.about-text p { color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+.about-text p { color: var(--muted); line-height: 1.8; margin-bottom: 16px; text-align: justify; hyphens: auto; }
 .about-text p:last-of-type { margin-bottom: 32px; }
 
 /* Trait tags */
@@ -57,7 +57,7 @@
     linear-gradient(180deg, rgba(99,102,241,0.06), rgba(8,10,18,0.04));
   position: relative;
   overflow: visible;
-  min-height: 520px;
+  min-height: 560px;
   isolation: isolate;
 }
 
@@ -126,8 +126,8 @@
     var(--glass-strong);
   border: 1px solid rgba(129,140,248,0.22);
   border-radius: 24px;
-  padding: 18px 18px 20px;
-  width: 194px;
+  padding: 22px 22px 24px;
+  width: 230px;
   text-align: center;
   box-shadow:
     0 22px 54px rgba(0,0,0,0.26),
@@ -174,18 +174,18 @@
   display: block;
 }
 
-.badge-divider { height: 1px; background: var(--border); margin: 0 -18px 14px; }
-.badge-name    { font-weight: 700; font-size: 0.92rem; margin-bottom: 4px; }
-.badge-role    { font-size: 0.7rem; color: var(--muted); margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
+.badge-divider { height: 1px; background: var(--border); margin: 0 -22px 16px; }
+.badge-name    { font-weight: 700; font-size: 1.02rem; margin-bottom: 5px; }
+.badge-role    { font-size: 0.75rem; color: var(--muted); margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; }
 .badge-status  {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.66rem;
+  font-size: 0.71rem;
   background: rgba(74,222,128,0.08);
   border: 1px solid rgba(74,222,128,0.2);
   border-radius: 99px;
-  padding: 4px 10px;
+  padding: 5px 12px;
   color: var(--text);
 }
 

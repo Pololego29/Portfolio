@@ -9,15 +9,15 @@
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const ROPE = 148;
+  const ROPE = 118;
   const MAX_DRAG_STRETCH = 112;
   const MAX_SIM_STRETCH = 165;
   const GRAVITY = 1780;
   const AIR_DAMP = 0.0065;
   const RADIAL_SPRING = 42;
   const RADIAL_DAMP = 6.4;
-  const IDLE_AMP = 0.06;
-  const IDLE_FREQ = 0.35;
+  const IDLE_AMP = 0.11;
+  const IDLE_FREQ = 0.26;
   const RELEASE_SNAP = 7.2;
   const RECENTER_PULL = 1.8;
   const RUBBER_BAND = 0.24;

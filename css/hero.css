@@ -276,7 +276,7 @@
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   mix-blend-mode: screen;
-  opacity: 0.62;
+  opacity: 0;
   transition: opacity 0.35s ease, filter 0.35s ease;
   pointer-events: none;
   z-index: 5;
