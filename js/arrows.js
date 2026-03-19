@@ -206,6 +206,9 @@
             const embed = 12;
             this.x = t.x - Math.cos(hitAngle) * (this.len * 0.5 - embed);
             this.y = t.y - Math.sin(hitAngle) * (this.len * 0.5 - embed);
+            // Convertir en coordonnées PAGE pour suivre le scroll
+            this.pageX = this.x;
+            this.pageY = this.y + window.scrollY;
             this.stuck = true;
             this.vx = 0;
             this.vy = 0;
@@ -219,10 +222,13 @@
     draw() {
       const a   = this.angle;
       const len = this.len;
+      // Si plantée : reconvertir coordonnées page → viewport
+      const drawX = this.stuck ? this.pageX : this.x;
+      const drawY = this.stuck ? this.pageY - window.scrollY : this.y;
 
       ctx.save();
       ctx.globalAlpha = Math.max(0, this.alpha);
-      ctx.translate(this.x, this.y);
+      ctx.translate(drawX, drawY);
       ctx.rotate(a);
 
       /* Halo de vitesse (motion blur manuel) */
