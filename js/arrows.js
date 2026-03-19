@@ -208,22 +208,29 @@
       spawnSparks(hit.tx, hit.ty, hitAngle, 7, this.color);
 
       const b  = hit.block;
-      const ty = hit.ty;
-      const dTop    = ty - b.y;          // distance pointe → face haute
-      const dBottom = (b.y + b.h) - ty;  // distance pointe → face basse
+      const tx = hit.tx, ty = hit.ty;
+      const dTop    = ty - b.y;
+      const dBottom = (b.y + b.h) - ty;
+      const dLeft   = tx - b.x;
+      const dRight  = (b.x + b.w) - tx;
 
+      // Rebond vertical (push-out + vy) — toujours
       if (dTop <= dBottom) {
-        // Pointe plus proche du haut → rebond vers le haut
         this.vy = -(Math.abs(this.vy) * 0.52 + Math.abs(this.vx) * 0.14);
-        // Push géométrique : déplace le centre pour sortir par le haut
         this.y -= dTop + 5;
       } else {
-        // Pointe plus proche du bas → rebond vers le bas
-        this.vy = (Math.abs(this.vy) * 0.52 + Math.abs(this.vx) * 0.14);
+        this.vy =  (Math.abs(this.vy) * 0.52 + Math.abs(this.vx) * 0.14);
         this.y += dBottom + 5;
       }
 
-      this.vx *= 0.76; // amortissement horizontal, direction conservée
+      // Face touchée → détermine le comportement horizontal
+      if (Math.min(dTop, dBottom) <= Math.min(dLeft, dRight)) {
+        // Face haut/bas → inverse vx (repart dans la direction opposée)
+        this.vx *= -0.72;
+      } else {
+        // Face gauche/droite → garde la direction horizontale
+        this.vx *= 0.76;
+      }
       this.bounces++;
       this._noCollideUntil = performance.now() + 280;
 
