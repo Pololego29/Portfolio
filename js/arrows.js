@@ -2,17 +2,14 @@
   'use strict';
 
   /* ════════════════════════════════════════════
-     CANVAS SETUP
+     CANVAS
   ════════════════════════════════════════════ */
   const canvas = document.createElement('canvas');
   canvas.id = 'arrow-canvas';
   Object.assign(canvas.style, {
-    position:      'fixed',
-    inset:         '0',
-    width:         '100%',
-    height:        '100%',
-    pointerEvents: 'none',
-    zIndex:        '45',
+    position: 'fixed', inset: '0',
+    width: '100%', height: '100%',
+    pointerEvents: 'none', zIndex: '45',
   });
   document.body.appendChild(canvas);
   const ctx = canvas.getContext('2d');
@@ -24,7 +21,20 @@
   }
 
   /* ════════════════════════════════════════════
-     BLOCK CACHE  (bounding rects of targets)
+     MINECRAFT ARROW IMAGE
+     Le sprite pointe en haut-droite ≈ -45° (-π/4)
+  ════════════════════════════════════════════ */
+  const MC_IMG   = new Image();
+  MC_IMG.src     = 'img/fleche-minecraft.png';
+  let mcImgReady = false;
+  MC_IMG.onload  = () => { mcImgReady = true; };
+
+  /* Pour que le sprite s'aligne sur l'angle de vol,
+     on ajoute +π/4 en plus de la rotation de l'arrow. */
+  const MC_ANGLE_OFFSET = Math.PI / 4;
+
+  /* ════════════════════════════════════════════
+     BLOCK CACHE
   ════════════════════════════════════════════ */
   let blocks = [];
   const TARGET_SELECTORS = [
@@ -48,33 +58,25 @@
   /* ════════════════════════════════════════════
      PALETTE
   ════════════════════════════════════════════ */
-  const COLORS = [
-    '#60a5fa', // bleu
-    '#34d399', // vert
-    '#a78bfa', // violet
-    '#f59e0b', // ambre
-    '#38bdf8', // cyan
-    '#f472b6', // rose
-    '#e2e8f0', // blanc cassé
-  ];
+  const COLORS = ['#60a5fa','#34d399','#a78bfa','#f59e0b','#38bdf8','#f472b6','#e2e8f0'];
   function randColor() { return COLORS[Math.floor(Math.random() * COLORS.length)]; }
 
   /* ════════════════════════════════════════════
-     IMPACT SPARKS
+     SPARKS D'IMPACT
   ════════════════════════════════════════════ */
   const sparks = [];
 
   function spawnSparks(x, y, impactAngle, count, color) {
     for (let i = 0; i < count; i++) {
-      const spread = (Math.random() - 0.5) * Math.PI * 1.1;
-      const speed  = 55 + Math.random() * 130;
+      const spread = (Math.random() - 0.5) * Math.PI * 1.3;
+      const speed  = 50 + Math.random() * 150;
       sparks.push({
         x, y,
         vx:    Math.cos(impactAngle + Math.PI + spread) * speed,
-        vy:    Math.sin(impactAngle + Math.PI + spread) * speed - 20,
+        vy:    Math.sin(impactAngle + Math.PI + spread) * speed - 28,
         life:  1,
-        decay: 1.6 + Math.random() * 1.4,
-        size:  1.4 + Math.random() * 2.8,
+        decay: 1.4 + Math.random() * 1.6,
+        size:  1.5 + Math.random() * 3.2,
         color: Math.random() < 0.5 ? color : '#fff',
       });
     }
@@ -83,9 +85,9 @@
   function updateSparks(dt) {
     for (let i = sparks.length - 1; i >= 0; i--) {
       const s = sparks[i];
-      s.vy += 240 * dt;
-      s.x  += s.vx * dt;
-      s.y  += s.vy * dt;
+      s.vy   += 280 * dt;
+      s.x    += s.vx * dt;
+      s.y    += s.vy * dt;
       s.life -= s.decay * dt;
       if (s.life <= 0) { sparks.splice(i, 1); continue; }
 
@@ -102,50 +104,42 @@
   }
 
   /* ════════════════════════════════════════════
-     ARROW CLASS
+     CLASSE DE BASE — Arrow
   ════════════════════════════════════════════ */
   class Arrow {
     constructor() {
       this.fromRight = Math.random() > 0.5;
+      this.x = this.fromRight ? W + 45 : -45;
+      this.y = H * 0.06 + Math.random() * H * 0.86;
 
-      // Spawn position : côté gauche ou droit, hauteur aléatoire
-      this.x = this.fromRight ? W + 40 : -40;
-      this.y = H * 0.08 + Math.random() * H * 0.82;
-
-      // Vitesse
-      const speed = 480 + Math.random() * 420;
+      const speed = 500 + Math.random() * 460;
       this.vx = this.fromRight ? -speed : speed;
-      this.vy = (Math.random() - 0.5) * 90;
+      this.vy = (Math.random() - 0.5) * 100;
+      this.gravity = 130 + Math.random() * 110;
 
-      // Gravité faible pour garder une trajectoire tendue
-      this.gravity = 140 + Math.random() * 100;
+      this.len   = 56 + Math.random() * 26;
+      this.color = randColor();
 
-      // Apparence
-      this.len      = 54 + Math.random() * 24;
-      this.thick    = 2.2 + Math.random() * 0.8;
-      this.color    = randColor();
+      this.stuck        = false;
+      this.stuckAge     = 0;
+      this.stuckLife    = 2000 + Math.random() * 2600;
+      this.bounces      = 0;
+      this.maxBounces   = Math.random() < 0.35 ? 1 : 0;
+      this.alpha        = 1;
+      this.dead         = false;
 
-      // État
-      this.stuck      = false;
-      this.stuckAge   = 0;
-      this.stuckLife  = 1800 + Math.random() * 2400; // ms avant de disparaître
-      this.bounces    = 0;
-      this.maxBounces = Math.random() < 0.35 ? 1 : 0; // 35% rebondissent une fois
-      this.alpha      = 1;
-      this.dead       = false;
-
-      // Angle figé quand plantée
-      this._lockedAngle = null;
+      this._lockedAngle    = null;
+      this._noCollideUntil = 0;   // cooldown après rebond (ms)
+      this._wiggle         = 0;   // amplitude vibration après impact
     }
 
-    /* Angle courant --------------------------------- */
     get angle() {
       return this._lockedAngle !== null
         ? this._lockedAngle
         : Math.atan2(this.vy, this.vx);
     }
 
-    /* Pointe de la flèche (tête) -------------------- */
+    /* Pointe de la flèche (tête) */
     tip() {
       const a = this.angle;
       return {
@@ -154,92 +148,125 @@
       };
     }
 
-    /* ── Update ──────────────────────────────────── */
+    /* Détection de collision — retourne le hit ou null */
+    detectHit() {
+      if (performance.now() < this._noCollideUntil) return null;
+      const t = this.tip();
+      for (const b of blocks) {
+        if (t.x > b.x && t.x < b.x + b.w &&
+            t.y > b.y && t.y < b.y + b.h) {
+          return { tx: t.x, ty: t.y };
+        }
+      }
+      return null;
+    }
+
     update(dt) {
       if (this.stuck) {
         this.stuckAge += dt * 1000;
+        // Vibration décroissante après impact
+        this._wiggle *= Math.pow(0.08, dt);
         if (this.stuckAge > this.stuckLife) {
-          this.alpha -= dt * 1.4;
+          this.alpha -= dt * 1.1;
           if (this.alpha <= 0) this.dead = true;
         }
         return;
       }
 
-      // Physique
       this.vy += this.gravity * dt;
       this.x  += this.vx * dt;
       this.y  += this.vy * dt;
 
-      // Sortie d'écran
-      if (this.x < -150 || this.x > W + 150 || this.y > H + 100 || this.y < -200) {
+      if (this.x < -160 || this.x > W + 160 || this.y > H + 120 || this.y < -220) {
         this.dead = true;
         return;
       }
 
-      // ── Détection collision ──
-      const t = this.tip();
-      for (const b of blocks) {
-        if (t.x > b.x && t.x < b.x + b.w && t.y > b.y && t.y < b.y + b.h) {
+      const hit = this.detectHit();
+      if (!hit) return;
 
-          const hitAngle = Math.atan2(this.vy, this.vx);
+      const hitAngle     = Math.atan2(this.vy, this.vx);
+      const impactSpeed  = Math.hypot(this.vx, this.vy); // capturer avant reset
 
-          if (this.bounces < this.maxBounces) {
-            /* REBOND -------------------------------- */
-            spawnSparks(t.x, t.y, hitAngle, 6, this.color);
+      if (this.bounces < this.maxBounces) {
+        /* ── REBOND ─────────────────────── */
+        spawnSparks(hit.tx, hit.ty, hitAngle, 7, this.color);
 
-            // Choisir l'axe à inverser selon la direction dominante
-            if (Math.abs(this.vx) > Math.abs(this.vy) * 0.9) {
-              this.vx *= -0.48;
-              this.vy *= 0.72;
-            } else {
-              this.vy *= -0.48;
-              this.vx *= 0.72;
-            }
-            this.bounces++;
-
-          } else {
-            /* PLANTÉ -------------------------------- */
-            spawnSparks(t.x, t.y, hitAngle, 10, this.color);
-
-            this._lockedAngle = hitAngle;
-            // Repositionner : pointe 12px dans la surface
-            const embed = 12;
-            this.x = t.x - Math.cos(hitAngle) * (this.len * 0.5 - embed);
-            this.y = t.y - Math.sin(hitAngle) * (this.len * 0.5 - embed);
-            // Convertir en coordonnées PAGE pour suivre le scroll
-            this.pageX = this.x;
-            this.pageY = this.y + window.scrollY;
-            this.stuck = true;
-            this.vx = 0;
-            this.vy = 0;
-          }
-          break;
+        if (Math.abs(this.vx) > Math.abs(this.vy) * 0.9) {
+          this.vx *= -0.50; this.vy *=  0.65;
+        } else {
+          this.vy *= -0.50; this.vx *=  0.65;
         }
+        this.bounces++;
+        // Grace period : 280ms pour que la flèche quitte le bloc
+        this._noCollideUntil = performance.now() + 280;
+
+      } else {
+        /* ── PLANTÉ ─────────────────────── */
+        spawnSparks(hit.tx, hit.ty, hitAngle, 14, this.color);
+
+        this._lockedAngle = hitAngle;
+
+        // Repositionner : 14px de pointe dans la surface, reste dehors
+        const embed = 14;
+        this.x = hit.tx - Math.cos(hitAngle) * (this.len * 0.5 - embed);
+        this.y = hit.ty - Math.sin(hitAngle) * (this.len * 0.5 - embed);
+
+        // Coordonnées PAGE (scroll-independent)
+        this.pageX = this.x;
+        this.pageY = this.y + window.scrollY;
+
+        this.stuck = true;
+        this.vx    = 0;
+        this.vy    = 0;
+
+        // Vibration à l'impact proportionnelle à la vitesse
+        this._wiggle = 0.10 + Math.min(impactSpeed / 2800, 0.22);
       }
     }
 
-    /* ── Draw ────────────────────────────────────── */
     draw() {
-      const a   = this.angle;
-      const len = this.len;
-      // Si plantée : reconvertir coordonnées page → viewport
-      const drawX = this.stuck ? this.pageX : this.x;
+      const drawX = this.stuck ? this.pageX         : this.x;
       const drawY = this.stuck ? this.pageY - window.scrollY : this.y;
+
+      // Angle + vibration sinusoïdale si planté
+      const baseAngle = this.angle;
+      const a = this.stuck && this._wiggle > 0.002
+        ? baseAngle + this._wiggle * Math.sin(performance.now() * 0.022)
+        : baseAngle;
 
       ctx.save();
       ctx.globalAlpha = Math.max(0, this.alpha);
       ctx.translate(drawX, drawY);
       ctx.rotate(a);
+      this.drawShape();
+      ctx.restore();
+    }
 
-      /* Halo de vitesse (motion blur manuel) */
+    /* Méthode à override */
+    drawShape() {}
+  }
+
+  /* ════════════════════════════════════════════
+     FANCY ARROW — flèche vectorielle originale
+  ════════════════════════════════════════════ */
+  class FancyArrow extends Arrow {
+    constructor() {
+      super();
+      this.thick = 2.2 + Math.random() * 0.9;
+    }
+
+    drawShape() {
+      const len = this.len;
+
+      /* Glow dynamique en vol */
       if (!this.stuck) {
         const speed = Math.hypot(this.vx, this.vy);
-        const blur  = Math.min(speed / 80, 12);
         ctx.shadowColor = this.color;
-        ctx.shadowBlur  = blur;
+        ctx.shadowBlur  = Math.min(speed / 75, 15);
       }
 
-      /* ── Fût (shaft) ─── */
+      /* Fût */
       ctx.strokeStyle = this.color;
       ctx.lineWidth   = this.thick;
       ctx.lineCap     = 'round';
@@ -248,64 +275,106 @@
       ctx.lineTo( len * 0.36, 0);
       ctx.stroke();
 
-      /* Reflet clair sur le fût */
-      ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-      ctx.lineWidth   = this.thick * 0.35;
+      /* Reflet sur le fût */
+      ctx.strokeStyle = 'rgba(255,255,255,0.30)';
+      ctx.lineWidth   = this.thick * 0.30;
       ctx.beginPath();
-      ctx.moveTo(-len * 0.48, -this.thick * 0.3);
-      ctx.lineTo( len * 0.32, -this.thick * 0.3);
+      ctx.moveTo(-len * 0.47, -this.thick * 0.28);
+      ctx.lineTo( len * 0.33, -this.thick * 0.28);
       ctx.stroke();
 
-      /* ── Tête (arrowhead) ─── */
-      ctx.shadowBlur  = this.stuck ? 6 : 16;
-      ctx.fillStyle   = this.color;
+      /* Tête */
+      ctx.shadowBlur = this.stuck ? 4 : 18;
+      ctx.fillStyle  = this.color;
       ctx.beginPath();
       ctx.moveTo( len * 0.52,  0);
-      ctx.lineTo( len * 0.30, -5);
-      ctx.lineTo( len * 0.30,  5);
+      ctx.lineTo( len * 0.30, -5.5);
+      ctx.lineTo( len * 0.30,  5.5);
       ctx.closePath();
       ctx.fill();
 
-      /* Highlight sur la tête */
-      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      /* Highlight tête */
+      ctx.fillStyle = 'rgba(255,255,255,0.46)';
       ctx.beginPath();
       ctx.moveTo( len * 0.50,  0);
-      ctx.lineTo( len * 0.38, -2.2);
-      ctx.lineTo( len * 0.30, -4.5);
+      ctx.lineTo( len * 0.38, -2.4);
+      ctx.lineTo( len * 0.30, -5.0);
       ctx.closePath();
       ctx.fill();
 
-      /* ── Empennage (fletching) ─── */
+      /* Empennage */
       ctx.strokeStyle = this.color;
       ctx.lineWidth   = 1.4;
-      ctx.shadowBlur  = 4;
-      ctx.globalAlpha = Math.max(0, this.alpha) * 0.7;
-      // Plume haut
+      ctx.shadowBlur  = 3;
+      ctx.globalAlpha = Math.max(0, this.alpha) * 0.65;
       ctx.beginPath();
-      ctx.moveTo(-len * 0.30, 0);
-      ctx.quadraticCurveTo(-len * 0.40, -5, -len * 0.50, -8);
+      ctx.moveTo(-len * 0.28, 0);
+      ctx.quadraticCurveTo(-len * 0.40, -5, -len * 0.50, -9);
       ctx.stroke();
-      // Plume bas
       ctx.beginPath();
-      ctx.moveTo(-len * 0.30, 0);
-      ctx.quadraticCurveTo(-len * 0.40,  5, -len * 0.50,  8);
+      ctx.moveTo(-len * 0.28, 0);
+      ctx.quadraticCurveTo(-len * 0.40,  5, -len * 0.50,  9);
       ctx.stroke();
-
-      ctx.restore();
     }
   }
 
   /* ════════════════════════════════════════════
-     SPAWN SCHEDULER  (rythme aléatoire)
+     MINECRAFT ARROW — sprite pixelisé
+  ════════════════════════════════════════════ */
+  class MinecraftArrow extends Arrow {
+    constructor() {
+      super();
+      this.len    = 60 + Math.random() * 20;
+      this.mcSize = 66 + Math.random() * 18; // taille de rendu en px
+    }
+
+    drawShape() {
+      if (!mcImgReady) return;
+
+      /* Le canvas est déjà rotate(angle).
+         On corrige l'angle naturel du sprite (-π/4) en ajoutant +π/4. */
+      ctx.rotate(MC_ANGLE_OFFSET);
+
+      const sz = this.mcSize;
+      const ar = MC_IMG.naturalHeight > 0
+        ? MC_IMG.naturalHeight / MC_IMG.naturalWidth
+        : 1;
+
+      ctx.imageSmoothingEnabled = false; // look pixelisé Minecraft
+
+      /* Image principale */
+      ctx.drawImage(MC_IMG, -sz * 0.5, -sz * ar * 0.5, sz, sz * ar);
+
+      /* Glow subtil en vol */
+      if (!this.stuck) {
+        const speed = Math.hypot(this.vx, this.vy);
+        const glow  = Math.min(speed / 800, 0.22);
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalAlpha = Math.max(0, this.alpha) * glow;
+        ctx.drawImage(MC_IMG, -sz * 0.5, -sz * ar * 0.5, sz, sz * ar);
+        ctx.globalCompositeOperation = 'source-over';
+      }
+    }
+  }
+
+  /* ════════════════════════════════════════════
+     FACTORY
+  ════════════════════════════════════════════ */
+  function createArrow() {
+    // 40% Minecraft, 60% Fancy
+    return Math.random() < 0.40 ? new MinecraftArrow() : new FancyArrow();
+  }
+
+  /* ════════════════════════════════════════════
+     SPAWN SCHEDULER
   ════════════════════════════════════════════ */
   const arrows = [];
 
   function scheduleNext() {
-    const delay = 700 + Math.random() * 2000;
+    const delay = 450 + Math.random() * 1400;
     setTimeout(() => {
-      // Ne pas spammer si trop de flèches en vol
-      if (arrows.filter(a => !a.stuck).length < 6) {
-        arrows.push(new Arrow());
+      if (arrows.filter(a => !a.stuck).length < 10) {
+        arrows.push(createArrow());
       }
       scheduleNext();
     }, delay);
@@ -317,7 +386,8 @@
   let lastTs = 0;
 
   function loop(ts) {
-    const dt = lastTs ? Math.min((ts - lastTs) / 1000, 0.05) : 0.016;
+    // Cap dt à 33ms (30fps minimum) pour éviter les gros sauts
+    const dt = lastTs ? Math.min((ts - lastTs) / 1000, 0.033) : 0.016;
     lastTs = ts;
 
     ctx.clearRect(0, 0, W, H);
@@ -342,16 +412,13 @@
   window.addEventListener('scroll', refreshBlocks, { passive: true });
   setInterval(refreshBlocks, 600);
 
-  // Attendre que la page soit chargée pour lire les blocs
-  if (document.readyState === 'complete') {
+  function start() {
     refreshBlocks();
     setTimeout(scheduleNext, 1200);
-  } else {
-    window.addEventListener('load', () => {
-      refreshBlocks();
-      setTimeout(scheduleNext, 1200);
-    });
   }
+
+  if (document.readyState === 'complete') { start(); }
+  else { window.addEventListener('load', start); }
 
   requestAnimationFrame(loop);
 })();
