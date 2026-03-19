@@ -148,14 +148,24 @@
       };
     }
 
-    /* Détection de collision — retourne le hit ou null */
+    /* Détection de collision — vérifie la pointe ET le quart-avant du fût */
     detectHit() {
       if (performance.now() < this._noCollideUntil) return null;
-      const t = this.tip();
+      const a = this.angle;
+      const pts = [
+        // Pointe (tip)
+        { x: this.x + Math.cos(a) * this.len * 0.50,
+          y: this.y + Math.sin(a) * this.len * 0.50 },
+        // Quart avant du fût (détecte les blocs fins)
+        { x: this.x + Math.cos(a) * this.len * 0.25,
+          y: this.y + Math.sin(a) * this.len * 0.25 },
+      ];
       for (const b of blocks) {
-        if (t.x > b.x && t.x < b.x + b.w &&
-            t.y > b.y && t.y < b.y + b.h) {
-          return { tx: t.x, ty: t.y };
+        for (const pt of pts) {
+          if (pt.x > b.x && pt.x < b.x + b.w &&
+              pt.y > b.y && pt.y < b.y + b.h) {
+            return { tx: pt.x, ty: pt.y, block: b };
+          }
         }
       }
       return null;
@@ -188,20 +198,34 @@
       const hitAngle = Math.atan2(this.vy, this.vx);
       // const impactSpeed = Math.hypot(this.vx, this.vy); // utilisé par le bloc PLANTÉ commenté
 
-      /* ── REBOND ─────────────────────── */
+      /* ── REBOND ─────────────────────────────────────────────────────────
+         Principe : on ne reverse JAMAIS vx (la flèche continue dans la même
+         direction horizontale). On inverse seulement vy pour que la flèche
+         bondisse au-dessus ou en-dessous du bloc.
+         Push-out géométrique : on déplace le centre jusqu'à ce que la
+         pointe soit hors du bloc par le côté vertical le plus proche.
+      ──────────────────────────────────────────────────────────────────── */
       spawnSparks(hit.tx, hit.ty, hitAngle, 7, this.color);
 
-      if (Math.abs(this.vx) > Math.abs(this.vy) * 0.9) {
-        this.vx *= -0.52; this.vy *=  0.66;
+      const b  = hit.block;
+      const ty = hit.ty;
+      const dTop    = ty - b.y;          // distance pointe → face haute
+      const dBottom = (b.y + b.h) - ty;  // distance pointe → face basse
+
+      if (dTop <= dBottom) {
+        // Pointe plus proche du haut → rebond vers le haut
+        this.vy = -(Math.abs(this.vy) * 0.52 + Math.abs(this.vx) * 0.14);
+        // Push géométrique : déplace le centre pour sortir par le haut
+        this.y -= dTop + 5;
       } else {
-        this.vy *= -0.52; this.vx *=  0.66;
+        // Pointe plus proche du bas → rebond vers le bas
+        this.vy = (Math.abs(this.vy) * 0.52 + Math.abs(this.vx) * 0.14);
+        this.y += dBottom + 5;
       }
+
+      this.vx *= 0.76; // amortissement horizontal, direction conservée
       this.bounces++;
-      // Push-out : on avance d'un micro-step dans la nouvelle direction
-      // pour que la pointe quitte le bloc avant le prochain test de collision
-      this.x += this.vx * 0.018;
-      this.y += this.vy * 0.018;
-      this._noCollideUntil = performance.now() + 260;
+      this._noCollideUntil = performance.now() + 280;
 
       /* ══════════════════════════════════════════════════════════════════
          PLANTÉ — désactivé. Décommenter le bloc ci-dessous pour réactiver
