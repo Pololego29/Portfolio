@@ -124,7 +124,7 @@
       this.stuckAge     = 0;
       this.stuckLife    = 2000 + Math.random() * 2600;
       this.bounces      = 0;
-      this.maxBounces   = Math.random() < 0.35 ? 1 : 0;
+      this.maxBounces   = 999; // toujours rebondir (voir bloc PLANTÉ commenté plus bas)
       this.alpha        = 1;
       this.dead         = false;
 
@@ -185,44 +185,47 @@
       const hit = this.detectHit();
       if (!hit) return;
 
-      const hitAngle     = Math.atan2(this.vy, this.vx);
-      const impactSpeed  = Math.hypot(this.vx, this.vy); // capturer avant reset
+      const hitAngle = Math.atan2(this.vy, this.vx);
+      // const impactSpeed = Math.hypot(this.vx, this.vy); // utilisé par le bloc PLANTÉ commenté
 
-      if (this.bounces < this.maxBounces) {
-        /* ── REBOND ─────────────────────── */
-        spawnSparks(hit.tx, hit.ty, hitAngle, 7, this.color);
+      /* ── REBOND ─────────────────────── */
+      spawnSparks(hit.tx, hit.ty, hitAngle, 7, this.color);
 
-        if (Math.abs(this.vx) > Math.abs(this.vy) * 0.9) {
-          this.vx *= -0.50; this.vy *=  0.65;
-        } else {
-          this.vy *= -0.50; this.vx *=  0.65;
-        }
-        this.bounces++;
-        // Grace period : 280ms pour que la flèche quitte le bloc
-        this._noCollideUntil = performance.now() + 280;
-
+      if (Math.abs(this.vx) > Math.abs(this.vy) * 0.9) {
+        this.vx *= -0.52; this.vy *=  0.66;
       } else {
-        /* ── PLANTÉ ─────────────────────── */
+        this.vy *= -0.52; this.vx *=  0.66;
+      }
+      this.bounces++;
+      // Push-out : on avance d'un micro-step dans la nouvelle direction
+      // pour que la pointe quitte le bloc avant le prochain test de collision
+      this.x += this.vx * 0.018;
+      this.y += this.vy * 0.018;
+      this._noCollideUntil = performance.now() + 260;
+
+      /* ══════════════════════════════════════════════════════════════════
+         PLANTÉ — désactivé. Décommenter le bloc ci-dessous pour réactiver
+         l'effet où les flèches se plantent dans les blocs au lieu de rebondir.
+         ══════════════════════════════════════════════════════════════════
+      if (this.bounces >= this.maxBounces) {
         spawnSparks(hit.tx, hit.ty, hitAngle, 14, this.color);
 
         this._lockedAngle = hitAngle;
-
-        // Repositionner : 14px de pointe dans la surface, reste dehors
         const embed = 14;
         this.x = hit.tx - Math.cos(hitAngle) * (this.len * 0.5 - embed);
         this.y = hit.ty - Math.sin(hitAngle) * (this.len * 0.5 - embed);
 
-        // Coordonnées PAGE (scroll-independent)
+        // Coordonnées PAGE pour suivre le scroll
         this.pageX = this.x;
         this.pageY = this.y + window.scrollY;
 
         this.stuck = true;
         this.vx    = 0;
         this.vy    = 0;
-
-        // Vibration à l'impact proportionnelle à la vitesse
         this._wiggle = 0.10 + Math.min(impactSpeed / 2800, 0.22);
+        return;
       }
+      ══════════════════════════════════════════════════════════════════ */
     }
 
     draw() {
@@ -259,14 +262,14 @@
     drawShape() {
       const len = this.len;
 
-      /* Glow dynamique en vol */
+      /* Halo de vitesse (motion blur manuel) */
       if (!this.stuck) {
         const speed = Math.hypot(this.vx, this.vy);
         ctx.shadowColor = this.color;
-        ctx.shadowBlur  = Math.min(speed / 75, 15);
+        ctx.shadowBlur  = Math.min(speed / 80, 12);
       }
 
-      /* Fût */
+      /* ── Fût (shaft) ── */
       ctx.strokeStyle = this.color;
       ctx.lineWidth   = this.thick;
       ctx.lineCap     = 'round';
@@ -275,45 +278,45 @@
       ctx.lineTo( len * 0.36, 0);
       ctx.stroke();
 
-      /* Reflet sur le fût */
-      ctx.strokeStyle = 'rgba(255,255,255,0.30)';
-      ctx.lineWidth   = this.thick * 0.30;
+      /* Reflet clair sur le fût */
+      ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+      ctx.lineWidth   = this.thick * 0.35;
       ctx.beginPath();
-      ctx.moveTo(-len * 0.47, -this.thick * 0.28);
-      ctx.lineTo( len * 0.33, -this.thick * 0.28);
+      ctx.moveTo(-len * 0.48, -this.thick * 0.3);
+      ctx.lineTo( len * 0.32, -this.thick * 0.3);
       ctx.stroke();
 
-      /* Tête */
-      ctx.shadowBlur = this.stuck ? 4 : 18;
+      /* ── Tête (arrowhead) ── */
+      ctx.shadowBlur = this.stuck ? 6 : 16;
       ctx.fillStyle  = this.color;
       ctx.beginPath();
       ctx.moveTo( len * 0.52,  0);
-      ctx.lineTo( len * 0.30, -5.5);
-      ctx.lineTo( len * 0.30,  5.5);
+      ctx.lineTo( len * 0.30, -5);
+      ctx.lineTo( len * 0.30,  5);
       ctx.closePath();
       ctx.fill();
 
-      /* Highlight tête */
-      ctx.fillStyle = 'rgba(255,255,255,0.46)';
+      /* Highlight sur la tête */
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
       ctx.beginPath();
       ctx.moveTo( len * 0.50,  0);
-      ctx.lineTo( len * 0.38, -2.4);
-      ctx.lineTo( len * 0.30, -5.0);
+      ctx.lineTo( len * 0.38, -2.2);
+      ctx.lineTo( len * 0.30, -4.5);
       ctx.closePath();
       ctx.fill();
 
-      /* Empennage */
+      /* ── Empennage (fletching) ── */
       ctx.strokeStyle = this.color;
       ctx.lineWidth   = 1.4;
-      ctx.shadowBlur  = 3;
-      ctx.globalAlpha = Math.max(0, this.alpha) * 0.65;
+      ctx.shadowBlur  = 4;
+      ctx.globalAlpha = Math.max(0, this.alpha) * 0.7;
       ctx.beginPath();
-      ctx.moveTo(-len * 0.28, 0);
-      ctx.quadraticCurveTo(-len * 0.40, -5, -len * 0.50, -9);
+      ctx.moveTo(-len * 0.30, 0);
+      ctx.quadraticCurveTo(-len * 0.40, -5, -len * 0.50, -8);
       ctx.stroke();
       ctx.beginPath();
-      ctx.moveTo(-len * 0.28, 0);
-      ctx.quadraticCurveTo(-len * 0.40,  5, -len * 0.50,  9);
+      ctx.moveTo(-len * 0.30, 0);
+      ctx.quadraticCurveTo(-len * 0.40,  5, -len * 0.50,  8);
       ctx.stroke();
     }
   }
