@@ -185,21 +185,22 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.2), transparent 26%),
-    repeating-linear-gradient(
+    radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.16), transparent 22%),
+    linear-gradient(
       126deg,
-      hsla(0,   100%, 64%, 0.34)  0%,
-      hsla(36,  100%, 68%, 0.34)  7%,
-      hsla(58,  100%, 72%, 0.32) 12%,
-      hsla(155, 100%, 66%, 0.3)  19%,
-      hsla(196, 100%, 69%, 0.34) 27%,
-      hsla(226, 100%, 70%, 0.32) 35%,
-      hsla(280, 100%, 73%, 0.34) 42%,
-      hsla(332, 100%, 68%, 0.32) 49%,
-      rgba(255,255,255,0)        57%
+      rgba(255,255,255,0)        0%,
+      hsla(192, 100%, 78%, 0.12) 12%,
+      hsla(160, 100%, 72%, 0.18) 21%,
+      hsla(58,  100%, 72%, 0.15) 32%,
+      hsla(28,  100%, 72%, 0.17) 41%,
+      hsla(332, 100%, 72%, 0.15) 52%,
+      hsla(276, 100%, 76%, 0.17) 64%,
+      hsla(220, 100%, 74%, 0.14) 76%,
+      rgba(255,255,255,0.08)     84%,
+      rgba(255,255,255,0)        100%
     );
-  background-size: 100% 100%, 280% 280%;
-  filter: saturate(1.18);
+  background-size: 100% 100%, 180% 180%;
+  filter: saturate(1.08) contrast(1.04);
   opacity: 0;
   mix-blend-mode: color-dodge;
   pointer-events: none;
@@ -312,7 +313,7 @@
     0 0 70px rgba(95,255,209,0.18);
   filter: saturate(1.08);
 }
-.holo-card.is-hovered .holo-foil  { opacity: 1; }
+.holo-card.is-hovered .holo-foil  { opacity: 0.82; }
 .holo-card.is-hovered .holo-shine { opacity: 1; }
 .holo-card.is-hovered .holo-glare { opacity: 1; }
 .holo-card.is-hovered::before {

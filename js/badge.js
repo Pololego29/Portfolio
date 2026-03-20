@@ -2,7 +2,9 @@
   const cardWrap = document.getElementById('badgeCardWrap');
   const ropeCard = document.getElementById('badgeCard');
   const ropePath = document.getElementById('badgeRopePath');
-  if (!cardWrap || !ropeCard || !ropePath) return;
+  const ropeTwistPath = document.getElementById('badgeRopeTwistPath');
+  const ropeFiberPath = document.getElementById('badgeRopeFiberPath');
+  if (!cardWrap || !ropeCard || !ropePath || !ropeTwistPath || !ropeFiberPath) return;
 
   const columnEl = cardWrap.parentElement;
   if (!columnEl) return;
@@ -21,6 +23,7 @@
   const RELEASE_SNAP = 7.2;
   const RECENTER_PULL = 1.8;
   const RUBBER_BAND = 0.24;
+  const EYELET_OFFSET = 12;
 
   let bx = 0;
   let by = ROPE;
@@ -135,13 +138,16 @@
     const x0 = pivotX;
     const y0 = pivotY;
     const x1 = pivotX + bx;
-    const y1 = pivotY + by;
+    const y1 = pivotY + by + EYELET_OFFSET;
     const horiz = Math.abs(bx) / dist;
     const sag = ROPE * 0.16 * horiz + stretch * 0.92 + drop * 18;
     const cpx = (x0 + x1) / 2;
     const cpy = (y0 + y1) / 2 + sag;
+    const d = `M ${x0} ${y0} Q ${cpx} ${cpy} ${x1} ${y1}`;
 
-    ropePath.setAttribute('d', `M ${x0} ${y0} Q ${cpx} ${cpy} ${x1} ${y1}`);
+    ropePath.setAttribute('d', d);
+    ropeTwistPath.setAttribute('d', d);
+    ropeFiberPath.setAttribute('d', d);
     ropePath.style.filter = `drop-shadow(0 4px ${6 + stretch * 0.08}px rgba(0, 0, 0, 0.28))`;
     ropeCard.style.boxShadow = `
       0 ${22 + stretch * 0.18}px ${54 + stretch * 0.34}px rgba(0,0,0,0.28),

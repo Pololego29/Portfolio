@@ -32,6 +32,10 @@
   /* Goals */
   .goals-grid            { grid-template-columns: 1fr; }
 
+  /* Timeline */
+  .timeline-top          { flex-direction: column; }
+  .timeline-badge        { align-self: flex-start; }
+
   /* Apps */
   .apps-grid             { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -50,6 +54,14 @@
   .hero-title { max-width: none; }
   .hero-stats { grid-template-columns: 1fr; gap: 28px; }
   .stat-item  { padding: 18px 18px 16px; }
+
+  /* Timeline */
+  .timeline { padding-left: 28px; }
+  .timeline-item { padding-left: 20px; }
+  .timeline-dot { left: -28px; }
+  .timeline-traveler {
+    --timeline-traveler-size: 28px;
+  }
 
   /* Skills & Apps */
   .skills-grid { grid-template-columns: 1fr; }

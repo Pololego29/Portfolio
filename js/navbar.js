@@ -34,29 +34,44 @@ function setupMenu() {
 
 /* ─── Active nav link highlight on scroll ─── */
 function setupActiveNav() {
-  const sections = document.querySelectorAll('section[id]');
   const navLinks  = document.querySelectorAll('.nav-links a');
 
-  if (!sections.length || !navLinks.length) return;
+  if (!navLinks.length) return;
 
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
+  const trackedSections = Array.from(navLinks)
+    .map(link => {
+      const href = link.getAttribute('href') || '';
+      if (!href.startsWith('#')) return null;
 
-        /* Reset all */
-        navLinks.forEach(link => {
-          link.style.color      = '';
-          link.style.background = '';
-        });
+      const section = document.querySelector(href);
+      if (!section) return null;
 
-        /* Highlight current */
-        const activeLink = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-        if (activeLink) activeLink.style.color = '#fff';
-      });
-    },
-    { threshold: 0.42 }
-  );
+      return { link, section };
+    })
+    .filter(Boolean);
 
-  sections.forEach(section => observer.observe(section));
+  if (!trackedSections.length) return;
+
+  function setActiveLink(sectionId) {
+    navLinks.forEach(link => {
+      link.classList.toggle('is-active', link.getAttribute('href') === `#${sectionId}`);
+    });
+  }
+
+  function syncActiveLink() {
+    const focusY = window.scrollY + 140;
+    let activeSectionId = trackedSections[0].section.id;
+
+    trackedSections.forEach(({ section }) => {
+      if (section.offsetTop <= focusY) {
+        activeSectionId = section.id;
+      }
+    });
+
+    setActiveLink(activeSectionId);
+  }
+
+  syncActiveLink();
+  window.addEventListener('scroll', syncActiveLink, { passive: true });
+  window.addEventListener('resize', syncActiveLink);
 }

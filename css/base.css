@@ -32,24 +32,24 @@
 
 /* ─── Design Tokens (Dark) ─── */
 html[data-theme='dark'] {
-  --bg:            #050508;
-  --bg2:           #0d0d14;
-  --bg3:           #131320;
+  --bg:            #0b1420;
+  --bg2:           #121c2b;
+  --bg3:           #18253a;
   --border:        rgba(255,255,255,0.07);
   --border2:       rgba(99,102,241,0.25);
-  --text:          #e8e8f0;
-  --muted:         #7878a0;
+  --text:          #eef4ff;
+  --muted:         #95a2bf;
   --accent:        #6366f1;
   --accent2:       #818cf8;
   --accent3:       #4f46e5;
-  --glow:          rgba(99,102,241,0.15);
-  --nav-bg:        rgba(5,5,8,0.72);
-  --nav-bg-strong: rgba(5,5,8,0.94);
-  --glass:         rgba(13,13,20,0.74);
-  --glass-strong:  rgba(13,13,20,0.9);
+  --glow:          rgba(99,102,241,0.18);
+  --nav-bg:        rgba(11,20,32,0.7);
+  --nav-bg-strong: rgba(11,20,32,0.92);
+  --glass:         rgba(18,28,43,0.74);
+  --glass-strong:  rgba(18,28,43,0.88);
   --grid-line:     rgba(99,102,241,0.03);
-  --noise-opacity: 0.4;
-  --shadow:        0 20px 60px rgba(0,0,0,0.55);
+  --noise-opacity: 0.26;
+  --shadow:        0 20px 60px rgba(4,10,18,0.42);
 }
 
 /* ─── HTML ─── */
@@ -59,11 +59,11 @@ html { scroll-behavior: smooth; }
 body {
   font-family: 'Inter', sans-serif;
   background:
-    radial-gradient(circle at 50% -8%,  rgba(16,185,129,0.16),  transparent 26%),
-    radial-gradient(circle at 82% 12%,  rgba(59,130,246,0.12),  transparent 24%),
-    radial-gradient(circle at 18% 42%,  rgba(99,102,241,0.1),   transparent 22%),
-    radial-gradient(circle at 78% 72%,  rgba(34,197,94,0.07),   transparent 18%),
-    linear-gradient(180deg, #071018 0%, #070b14 22%, #09101a 46%, #071018 72%, #05070d 100%);
+    radial-gradient(circle at 50% -8%,  rgba(45,212,191,0.2),   transparent 28%),
+    radial-gradient(circle at 82% 12%,  rgba(96,165,250,0.16),  transparent 26%),
+    radial-gradient(circle at 18% 42%,  rgba(129,140,248,0.14), transparent 24%),
+    radial-gradient(circle at 78% 72%,  rgba(34,197,94,0.1),    transparent 20%),
+    linear-gradient(180deg, #0d1825 0%, #0d1624 22%, #101c2d 46%, #0c1827 72%, #09121d 100%);
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
@@ -114,19 +114,19 @@ body::after {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at top,       rgba(34,197,94,0.08),  transparent 26%),
-    radial-gradient(circle at 20% 26%,   rgba(59,130,246,0.08), transparent 22%),
-    radial-gradient(circle at 80% 66%,   rgba(99,102,241,0.06), transparent 22%),
+    radial-gradient(circle at top,       rgba(34,197,94,0.11),  transparent 28%),
+    radial-gradient(circle at 20% 26%,   rgba(59,130,246,0.12), transparent 24%),
+    radial-gradient(circle at 80% 66%,   rgba(99,102,241,0.09), transparent 24%),
     linear-gradient(180deg,
-      rgba(34,197,94,0.06)  0%,
+      rgba(34,197,94,0.08)  0%,
       rgba(8,10,18,0)       18%,
-      rgba(99,102,241,0.04) 42%,
+      rgba(99,102,241,0.06) 42%,
       rgba(8,10,18,0)       68%,
-      rgba(56,189,248,0.05) 100%
+      rgba(56,189,248,0.07) 100%
     );
   pointer-events: none;
   z-index: 0;
-  opacity: 0.75;
+  opacity: 0.82;
 }
 
 /* ─── Fond dynamique : orbes flottantes ─── */
@@ -136,6 +136,16 @@ body::after {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
+}
+
+#bg-interference-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.95;
 }
 
 .bg-orb {
@@ -148,9 +158,9 @@ body::after {
 .bg-orb-1 {
   width: 700px; height: 500px;
   top: -12%; left: -10%;
-  background: radial-gradient(circle, rgba(99,102,241,0.28), transparent 68%);
+  background: radial-gradient(circle, rgba(129,140,248,0.34), transparent 68%);
   filter: blur(72px);
-  opacity: 0.7;
+  opacity: 0.76;
   animation: orb-drift-1 22s ease-in-out infinite alternate;
 }
 
@@ -158,9 +168,9 @@ body::after {
 .bg-orb-2 {
   width: 550px; height: 550px;
   top: 8%; right: -12%;
-  background: radial-gradient(circle, rgba(34,197,94,0.22), transparent 70%);
+  background: radial-gradient(circle, rgba(45,212,191,0.28), transparent 70%);
   filter: blur(80px);
-  opacity: 0.65;
+  opacity: 0.7;
   animation: orb-drift-2 28s ease-in-out infinite alternate;
 }
 
@@ -168,9 +178,9 @@ body::after {
 .bg-orb-3 {
   width: 620px; height: 380px;
   top: 42%; left: 6%;
-  background: radial-gradient(circle, rgba(14,165,233,0.2), transparent 70%);
+  background: radial-gradient(circle, rgba(96,165,250,0.24), transparent 70%);
   filter: blur(76px);
-  opacity: 0.6;
+  opacity: 0.66;
   animation: orb-drift-3 32s ease-in-out infinite alternate;
 }
 
@@ -178,9 +188,9 @@ body::after {
 .bg-orb-4 {
   width: 500px; height: 500px;
   bottom: 4%; right: 2%;
-  background: radial-gradient(circle, rgba(168,85,247,0.2), transparent 70%);
+  background: radial-gradient(circle, rgba(168,85,247,0.22), transparent 70%);
   filter: blur(88px);
-  opacity: 0.55;
+  opacity: 0.6;
   animation: orb-drift-4 25s ease-in-out infinite alternate;
 }
 
@@ -188,9 +198,9 @@ body::after {
 .bg-orb-5 {
   width: 460px; height: 460px;
   top: 55%; left: 38%;
-  background: radial-gradient(circle, rgba(45,212,191,0.18), transparent 70%);
+  background: radial-gradient(circle, rgba(45,212,191,0.22), transparent 70%);
   filter: blur(82px);
-  opacity: 0.5;
+  opacity: 0.58;
   animation: orb-drift-5 36s ease-in-out infinite alternate;
 }
 
@@ -198,9 +208,9 @@ body::after {
 .bg-orb-6 {
   width: 420px; height: 320px;
   top: 28%; right: 20%;
-  background: radial-gradient(circle, rgba(79,70,229,0.16), transparent 70%);
+  background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%);
   filter: blur(64px);
-  opacity: 0.5;
+  opacity: 0.56;
   animation: orb-drift-6 20s ease-in-out infinite alternate;
 }
 

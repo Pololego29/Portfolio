@@ -10,6 +10,8 @@ setupNavbar();
 setupMenu();
 setupScrollAnimations();
 setupTypingReveal();
+setupTimelineJourney();
+setupInteractiveBackground();
 setupAppCards();
 setupHolographicCard();
 setupActiveNav();

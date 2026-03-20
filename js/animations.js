@@ -121,3 +121,83 @@ function setupTypingReveal() {
 
   typingElements.forEach(el => observer.observe(el));
 }
+
+/* ─── Timeline journey ─── */
+function setupTimelineJourney() {
+  const timeline = document.getElementById('journeyTimeline');
+  if (!timeline) return;
+
+  const items = Array.from(timeline.querySelectorAll('.timeline-item'));
+  if (!items.length) return;
+
+  let rafId = null;
+
+  function getDotCenter(item) {
+    const dot = item.querySelector('.timeline-dot');
+    if (!dot) return 0;
+
+    const timelineRect = timeline.getBoundingClientRect();
+    const dotRect = dot.getBoundingClientRect();
+    return dotRect.top - timelineRect.top + dotRect.height / 2;
+  }
+
+  function updateJourney() {
+    rafId = null;
+
+    const centers = items.map(getDotCenter);
+    if (!centers.length) return;
+
+    const timelineRect = timeline.getBoundingClientRect();
+    const focusLine = Math.min(window.innerHeight * 0.42, window.innerHeight - 120);
+    const focusInTimeline = focusLine - timelineRect.top;
+
+    let travelerY = centers[0];
+    let activeIndex = 0;
+
+    if (focusInTimeline <= centers[0]) {
+      travelerY = centers[0];
+      activeIndex = 0;
+    } else if (focusInTimeline >= centers[centers.length - 1]) {
+      travelerY = centers[centers.length - 1];
+      activeIndex = centers.length - 1;
+    } else {
+      for (let i = 0; i < centers.length - 1; i += 1) {
+        const start = centers[i];
+        const end = centers[i + 1];
+        if (focusInTimeline < start || focusInTimeline > end) continue;
+
+        const t = (focusInTimeline - start) / Math.max(1, end - start);
+        travelerY = start + (end - start) * t;
+        activeIndex = t < 0.5 ? i : i + 1;
+        break;
+      }
+    }
+
+    timeline.style.setProperty('--timeline-progress', `${Math.max(0, travelerY)}px`);
+    timeline.style.setProperty('--timeline-traveler-y', `${travelerY}px`);
+
+    items.forEach((item, index) => {
+      item.classList.toggle('is-past', index < activeIndex);
+      item.classList.toggle('is-active', index === activeIndex);
+    });
+  }
+
+  function requestUpdate() {
+    if (rafId !== null) return;
+    rafId = window.requestAnimationFrame(updateJourney);
+  }
+
+  if (prefersReducedMotion) {
+    items.forEach((item, index) => {
+      item.classList.toggle('is-past', index < items.length - 1);
+      item.classList.toggle('is-active', index === items.length - 1);
+    });
+    timeline.style.setProperty('--timeline-progress', `${getDotCenter(items[items.length - 1])}px`);
+    timeline.style.setProperty('--timeline-traveler-y', `${getDotCenter(items[items.length - 1])}px`);
+    return;
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  requestUpdate();
+}

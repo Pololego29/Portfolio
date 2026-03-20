@@ -125,9 +125,9 @@
     linear-gradient(180deg, rgba(255,255,255,0.38), rgba(255,255,255,0.08) 22%, rgba(255,255,255,0.02) 100%),
     var(--glass-strong);
   border: 1px solid rgba(129,140,248,0.22);
-  border-radius: 24px;
-  padding: 22px 22px 24px;
-  width: 230px;
+  border-radius: 26px;
+  padding: 34px 20px 20px;
+  width: 242px;
   text-align: center;
   box-shadow:
     0 22px 54px rgba(0,0,0,0.26),
@@ -151,6 +151,69 @@
   opacity: calc(0.66 + var(--badge-glow) * 0.18);
 }
 
+.badge-rope-entry,
+.badge-eyelet {
+  position: absolute;
+  left: 50%;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.badge-rope-entry {
+  position: absolute;
+  top: -9px;
+  width: 18px;
+  height: 34px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.3), rgba(133,141,152,0.08) 54%, rgba(48,55,66,0.16));
+  box-shadow:
+    inset 1px 0 0 rgba(255,255,255,0.55),
+    inset -1px 0 0 rgba(57,64,74,0.24),
+    0 4px 10px rgba(18,20,25,0.2);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.badge-rope-entry::before,
+.badge-rope-entry::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.badge-rope-entry::before {
+  background: url('../rope.png') center/cover no-repeat;
+  filter: grayscale(1) brightness(1.34) contrast(1.08);
+  opacity: 0.74;
+  mix-blend-mode: multiply;
+}
+
+.badge-rope-entry::after {
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255,255,255,0.16) 0 3px,
+      rgba(255,255,255,0) 3px 7px,
+      rgba(16,20,26,0.1) 7px 10px
+    );
+  opacity: 0.9;
+}
+
+.badge-eyelet {
+  top: 12px;
+  width: 28px;
+  height: 28px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(7,12,23,0.95) 0 34%, rgba(111,122,149,0.22) 36%, rgba(225,231,243,0.78) 53%, rgba(110,118,144,0.86) 70%, rgba(35,41,58,0.4) 100%);
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,0.38),
+    0 3px 10px rgba(0,0,0,0.18);
+  z-index: 3;
+}
+
 .badge-card-wrap.is-dragging .badge-card,
 .badge-card-wrap.is-releasing .badge-card {
   filter: saturate(1.14) brightness(1.06);
@@ -164,17 +227,17 @@
 .badge-photo-wrap {
   border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 14px;
-  aspect-ratio: 3/4;
+  margin-bottom: 10px;
+  aspect-ratio: 3/3.72;
 }
 .badge-photo-wrap img {
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 28%;
   display: block;
 }
 
-.badge-divider { height: 1px; background: var(--border); margin: 0 -22px 16px; }
+.badge-divider { height: 1px; background: var(--border); margin: 0 -20px 13px; }
 .badge-name    { font-weight: 700; font-size: 1.02rem; margin-bottom: 5px; }
 .badge-role    { font-size: 0.75rem; color: var(--muted); margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; }
 .badge-status  {
@@ -187,6 +250,12 @@
   border-radius: 99px;
   padding: 5px 12px;
   color: var(--text);
+}
+
+#badgeRopePath,
+#badgeRopeTwistPath,
+#badgeRopeFiberPath {
+  transition: filter 0.2s ease, opacity 0.2s ease;
 }
 
 /* ─── Particle system ─── */

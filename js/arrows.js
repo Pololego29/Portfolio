@@ -38,21 +38,110 @@
   ════════════════════════════════════════════ */
   let blocks = [];
   const TARGET_SELECTORS = [
-    '.skill-card', '.project-card', '.stat-item',
-    '.about-block', '.timeline-item', '.app-card',
-    '.contact-card', '.holo-card',
+    { selector: '.skill-card' },
+    { selector: '.project-card' },
+    { selector: '.stat-item' },
+    { selector: '.about-block' },
+    { selector: '.timeline-item' },
+    { selector: '.app-card' },
+    { selector: '.contact-card' },
+    { selector: '.badge-card' },
+    { selector: '.holo-card', shape: 'ellipse' },
   ];
+
+  function getScrollY() {
+    return window.scrollY || window.pageYOffset || 0;
+  }
+
+  function getPageHeight() {
+    return Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      H
+    );
+  }
 
   function refreshBlocks() {
     blocks = [];
-    TARGET_SELECTORS.forEach(sel => {
-      document.querySelectorAll(sel).forEach(el => {
+    const scrollY = getScrollY();
+    TARGET_SELECTORS.forEach(({ selector, shape = 'rect' }) => {
+      document.querySelectorAll(selector).forEach(el => {
         const r = el.getBoundingClientRect();
-        if (r.width > 20 && r.height > 20 && r.bottom > 0 && r.top < H) {
-          blocks.push({ x: r.left, y: r.top, w: r.width, h: r.height });
+        if (r.width > 20 && r.height > 20) {
+          if (shape === 'ellipse') {
+            blocks.push({
+              type: 'ellipse',
+              cx: r.left + r.width * 0.5,
+              cy: r.top + scrollY + r.height * 0.5,
+              rx: Math.max(1, r.width * 0.5),
+              ry: Math.max(1, r.height * 0.5),
+            });
+          } else {
+            blocks.push({ type: 'rect', x: r.left, y: r.top + scrollY, w: r.width, h: r.height });
+          }
         }
       });
     });
+  }
+
+  function getRectHit(block, x, y) {
+    if (x <= block.x || x >= block.x + block.w || y <= block.y || y >= block.y + block.h) {
+      return null;
+    }
+
+    const dTop = y - block.y;
+    const dBottom = (block.y + block.h) - y;
+    const dLeft = x - block.x;
+    const dRight = (block.x + block.w) - x;
+    const minDist = Math.min(dTop, dBottom, dLeft, dRight);
+
+    if (minDist === dTop)    return { tx: x, ty: y, block, nx:  0, ny: -1, push: dTop + 5 };
+    if (minDist === dBottom) return { tx: x, ty: y, block, nx:  0, ny:  1, push: dBottom + 5 };
+    if (minDist === dLeft)   return { tx: x, ty: y, block, nx: -1, ny:  0, push: dLeft + 5 };
+    return { tx: x, ty: y, block, nx: 1, ny: 0, push: dRight + 5 };
+  }
+
+  function getEllipseHit(block, x, y, fallbackAngle) {
+    const dx = x - block.cx;
+    const dy = y - block.cy;
+    const normalized = (dx * dx) / (block.rx * block.rx) + (dy * dy) / (block.ry * block.ry);
+    if (normalized >= 1) return null;
+
+    if (Math.abs(dx) < 0.001 && Math.abs(dy) < 0.001) {
+      return {
+        tx: x,
+        ty: y,
+        block,
+        nx: -Math.cos(fallbackAngle),
+        ny: -Math.sin(fallbackAngle),
+        push: 8,
+      };
+    }
+
+    const scale = 1 / Math.sqrt(Math.max(normalized, 1e-6));
+    const edgeX = block.cx + dx * scale;
+    const edgeY = block.cy + dy * scale;
+
+    let nx = (edgeX - block.cx) / (block.rx * block.rx);
+    let ny = (edgeY - block.cy) / (block.ry * block.ry);
+    const normalLen = Math.hypot(nx, ny) || 1;
+    nx /= normalLen;
+    ny /= normalLen;
+
+    return {
+      tx: x,
+      ty: y,
+      block,
+      nx,
+      ny,
+      push: Math.hypot(edgeX - x, edgeY - y) + 6,
+    };
+  }
+
+  function getBlockHit(block, x, y, fallbackAngle) {
+    return block.type === 'ellipse'
+      ? getEllipseHit(block, x, y, fallbackAngle)
+      : getRectHit(block, x, y);
   }
 
   /* ════════════════════════════════════════════
@@ -97,7 +186,7 @@
       ctx.shadowBlur  = 8;
       ctx.fillStyle   = s.color;
       ctx.beginPath();
-      ctx.arc(s.x, s.y, Math.max(0.1, s.size * s.life), 0, Math.PI * 2);
+      ctx.arc(s.x, s.y - getScrollY(), Math.max(0.1, s.size * s.life), 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     }
@@ -110,7 +199,7 @@
     constructor() {
       this.fromRight = Math.random() > 0.5;
       this.x = this.fromRight ? W + 45 : -45;
-      this.y = H * 0.06 + Math.random() * H * 0.86;
+      this.y = getScrollY() + H * 0.06 + Math.random() * H * 0.86;
 
       const speed = 500 + Math.random() * 460;
       this.vx = this.fromRight ? -speed : speed;
@@ -124,7 +213,7 @@
       this.stuckAge     = 0;
       this.stuckLife    = 2000 + Math.random() * 2600;
       this.bounces      = 0;
-      this.maxBounces   = 999; // toujours rebondir (voir bloc PLANTÉ commenté plus bas)
+      this.maxBounces   = 1; // premier impact = rebond, deuxième impact = planté
       this.alpha        = 1;
       this.dead         = false;
 
@@ -162,10 +251,8 @@
       ];
       for (const b of blocks) {
         for (const pt of pts) {
-          if (pt.x > b.x && pt.x < b.x + b.w &&
-              pt.y > b.y && pt.y < b.y + b.h) {
-            return { tx: pt.x, ty: pt.y, block: b };
-          }
+          const hit = getBlockHit(b, pt.x, pt.y, a);
+          if (hit) return hit;
         }
       }
       return null;
@@ -187,7 +274,7 @@
       this.x  += this.vx * dt;
       this.y  += this.vy * dt;
 
-      if (this.x < -160 || this.x > W + 160 || this.y > H + 120 || this.y < -220) {
+      if (this.x < -160 || this.x > W + 160 || this.y > getPageHeight() + 120 || this.y < -220) {
         this.dead = true;
         return;
       }
@@ -196,72 +283,46 @@
       if (!hit) return;
 
       const hitAngle = Math.atan2(this.vy, this.vx);
-      // const impactSpeed = Math.hypot(this.vx, this.vy); // utilisé par le bloc PLANTÉ commenté
-
-      /* ── REBOND ─────────────────────────────────────────────────────────
-         Principe : on ne reverse JAMAIS vx (la flèche continue dans la même
-         direction horizontale). On inverse seulement vy pour que la flèche
-         bondisse au-dessus ou en-dessous du bloc.
-         Push-out géométrique : on déplace le centre jusqu'à ce que la
-         pointe soit hors du bloc par le côté vertical le plus proche.
-      ──────────────────────────────────────────────────────────────────── */
-      spawnSparks(hit.tx, hit.ty, hitAngle, 7, this.color);
-
-      const b  = hit.block;
+      const impactSpeed = Math.hypot(this.vx, this.vy);
       const tx = hit.tx, ty = hit.ty;
-      const dTop    = ty - b.y;
-      const dBottom = (b.y + b.h) - ty;
-      const dLeft   = tx - b.x;
-      const dRight  = (b.x + b.w) - tx;
 
-      // Rebond vertical (push-out + vy) — toujours
-      if (dTop <= dBottom) {
-        this.vy = -(Math.abs(this.vy) * 0.52 + Math.abs(this.vx) * 0.14);
-        this.y -= dTop + 5;
-      } else {
-        this.vy =  (Math.abs(this.vy) * 0.52 + Math.abs(this.vx) * 0.14);
-        this.y += dBottom + 5;
-      }
-
-      // Face touchée → détermine le comportement horizontal
-      if (Math.min(dTop, dBottom) <= Math.min(dLeft, dRight)) {
-        // Face haut/bas → inverse vx (repart dans la direction opposée)
-        this.vx *= -0.72;
-      } else {
-        // Face gauche/droite → garde la direction horizontale
-        this.vx *= 0.76;
-      }
-      this.bounces++;
-      this._noCollideUntil = performance.now() + 280;
-
-      /* ══════════════════════════════════════════════════════════════════
-         PLANTÉ — désactivé. Décommenter le bloc ci-dessous pour réactiver
-         l'effet où les flèches se plantent dans les blocs au lieu de rebondir.
-         ══════════════════════════════════════════════════════════════════
       if (this.bounces >= this.maxBounces) {
-        spawnSparks(hit.tx, hit.ty, hitAngle, 14, this.color);
+        spawnSparks(tx, ty, hitAngle, 14, this.color);
 
         this._lockedAngle = hitAngle;
         const embed = 14;
-        this.x = hit.tx - Math.cos(hitAngle) * (this.len * 0.5 - embed);
-        this.y = hit.ty - Math.sin(hitAngle) * (this.len * 0.5 - embed);
-
-        // Coordonnées PAGE pour suivre le scroll
-        this.pageX = this.x;
-        this.pageY = this.y + window.scrollY;
+        this.x = tx - Math.cos(hitAngle) * (this.len * 0.5 - embed);
+        this.y = ty - Math.sin(hitAngle) * (this.len * 0.5 - embed);
 
         this.stuck = true;
-        this.vx    = 0;
-        this.vy    = 0;
+        this.vx = 0;
+        this.vy = 0;
         this._wiggle = 0.10 + Math.min(impactSpeed / 2800, 0.22);
         return;
       }
-      ══════════════════════════════════════════════════════════════════ */
+
+      /* ── REBOND ─────────────────────────────────────────────────────────
+         Le push-out suit la normale de la surface touchée.
+         La réflexion de vitesse suit ensuite la physique classique.
+         Pour un rectangle : haut/bas => vy s'inverse, gauche/droite => vx s'inverse.
+         Pour le cadre photo du hero : collision elliptique plus fidèle à la forme.
+      ──────────────────────────────────────────────────────────────────── */
+      spawnSparks(tx, ty, hitAngle, 7, this.color);
+      this.x += hit.nx * hit.push;
+      this.y += hit.ny * hit.push;
+
+      const normalSpeed = this.vx * hit.nx + this.vy * hit.ny;
+      const bounceLoss = 0.78;
+      this.vx = (this.vx - 2 * normalSpeed * hit.nx) * bounceLoss;
+      this.vy = (this.vy - 2 * normalSpeed * hit.ny) * bounceLoss;
+
+      this.bounces++;
+      this._noCollideUntil = performance.now() + 280;
     }
 
     draw() {
-      const drawX = this.stuck ? this.pageX         : this.x;
-      const drawY = this.stuck ? this.pageY - window.scrollY : this.y;
+      const drawX = this.x;
+      const drawY = this.y - getScrollY();
 
       // Angle + vibration sinusoïdale si planté
       const baseAngle = this.angle;
@@ -281,9 +342,11 @@
     drawShape() {}
   }
 
-  /* ════════════════════════════════════════════
+  /*
+  ════════════════════════════════════════════
      FANCY ARROW — flèche vectorielle originale
-  ════════════════════════════════════════════ */
+     Temporairement désactivée pour tester une version 100% Minecraft
+  ════════════════════════════════════════════
   class FancyArrow extends Arrow {
     constructor() {
       super();
@@ -293,14 +356,14 @@
     drawShape() {
       const len = this.len;
 
-      /* Halo de vitesse (motion blur manuel) */
+      // Halo de vitesse (motion blur manuel)
       if (!this.stuck) {
         const speed = Math.hypot(this.vx, this.vy);
         ctx.shadowColor = this.color;
         ctx.shadowBlur  = Math.min(speed / 80, 12);
       }
 
-      /* ── Fût (shaft) ── */
+      // Fût (shaft)
       ctx.strokeStyle = this.color;
       ctx.lineWidth   = this.thick;
       ctx.lineCap     = 'round';
@@ -309,7 +372,7 @@
       ctx.lineTo( len * 0.36, 0);
       ctx.stroke();
 
-      /* Reflet clair sur le fût */
+      // Reflet clair sur le fût
       ctx.strokeStyle = 'rgba(255,255,255,0.35)';
       ctx.lineWidth   = this.thick * 0.35;
       ctx.beginPath();
@@ -317,7 +380,7 @@
       ctx.lineTo( len * 0.32, -this.thick * 0.3);
       ctx.stroke();
 
-      /* ── Tête (arrowhead) ── */
+      // Tête (arrowhead)
       ctx.shadowBlur = this.stuck ? 6 : 16;
       ctx.fillStyle  = this.color;
       ctx.beginPath();
@@ -327,7 +390,7 @@
       ctx.closePath();
       ctx.fill();
 
-      /* Highlight sur la tête */
+      // Highlight sur la tête
       ctx.fillStyle = 'rgba(255,255,255,0.5)';
       ctx.beginPath();
       ctx.moveTo( len * 0.50,  0);
@@ -336,7 +399,7 @@
       ctx.closePath();
       ctx.fill();
 
-      /* ── Empennage (fletching) ── */
+      // Empennage (fletching)
       ctx.strokeStyle = this.color;
       ctx.lineWidth   = 1.4;
       ctx.shadowBlur  = 4;
@@ -351,6 +414,7 @@
       ctx.stroke();
     }
   }
+  */
 
   /* ════════════════════════════════════════════
      MINECRAFT ARROW — sprite pixelisé
@@ -395,8 +459,8 @@
      FACTORY
   ════════════════════════════════════════════ */
   function createArrow() {
-    // 40% Minecraft, 60% Fancy
-    return Math.random() < 0.40 ? new MinecraftArrow() : new FancyArrow();
+    // return Math.random() < 0.40 ? new MinecraftArrow() : new FancyArrow();
+    return new MinecraftArrow();
   }
 
   /* ════════════════════════════════════════════
@@ -418,11 +482,17 @@
      RENDER LOOP
   ════════════════════════════════════════════ */
   let lastTs = 0;
+  let lastBlockRefresh = 0;
 
   function loop(ts) {
     // Cap dt à 33ms (30fps minimum) pour éviter les gros sauts
     const dt = lastTs ? Math.min((ts - lastTs) / 1000, 0.033) : 0.016;
     lastTs = ts;
+
+    if (!lastBlockRefresh || ts - lastBlockRefresh > 90) {
+      refreshBlocks();
+      lastBlockRefresh = ts;
+    }
 
     ctx.clearRect(0, 0, W, H);
 
