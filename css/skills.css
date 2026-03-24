@@ -1,0 +1,109 @@
+/* ═══════════════════════════════════════════════
+   SKILLS
+   ═══════════════════════════════════════════════ */
+
+#skills { padding: 120px 0; }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.skill-card {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015)),
+    var(--bg2);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 24px 54px rgba(0,0,0,0.18);
+}
+
+/* Top accent line */
+.skill-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent3), var(--accent2));
+  opacity: 0;
+  transition: var(--transition);
+}
+
+/* Corner glow orb */
+.skill-card::after {
+  content: '';
+  position: absolute;
+  inset: auto -12% -36% auto;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%);
+  opacity: 0.6;
+  pointer-events: none;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.skill-card:hover {
+  border-color: rgba(129,140,248,0.28);
+  transform: translateY(-5px);
+  box-shadow: 0 28px 68px rgba(0,0,0,0.24);
+}
+.skill-card:hover::before { opacity: 1; }
+.skill-card:hover::after  { transform: scale(1.12); opacity: 0.9; }
+
+/* ─── Card content ─── */
+.skill-icon {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(145deg, rgba(99,102,241,0.18), rgba(34,197,94,0.12));
+  border: 1px solid rgba(129,140,248,0.28);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.82rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 18px;
+}
+
+.skill-name { font-size: 1rem;  font-weight: 600; margin-bottom: 8px; }
+.skill-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 18px; line-height: 1.6; }
+
+/* ─── Typing caret (shared with other sections) ─── */
+.skill-desc,
+.project-desc,
+.timeline-desc,
+.goal-desc,
+.app-desc,
+.contact-card > p { position: relative; }
+
+.type-writing::after {
+  content: '';
+  display: inline-block;
+  width: 0.58ch; height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(129,140,248,0.8));
+  animation: typing-caret 0.85s step-end infinite;
+}
+.type-complete::after { display: none; }
+
+/* ─── Skill pills ─── */
+.skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.pill {
+  background: rgba(99,102,241,0.08);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--muted);
+}

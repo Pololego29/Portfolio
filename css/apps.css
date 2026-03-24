@@ -1,0 +1,183 @@
+/* ═══════════════════════════════════════════════
+   APPS — Grid + Cards with 3D tilt effect
+   ═══════════════════════════════════════════════ */
+
+#apps {
+  padding: 120px 0;
+  position: relative;
+}
+
+/* Background ambient */
+#apps::before {
+  content: '';
+  position: absolute;
+  inset: -18% 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(45,212,191,0.08), transparent 28%),
+    radial-gradient(circle at 80% 0%, rgba(59,130,246,0.08), transparent 24%);
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 0;
+}
+#apps .container { position: relative; z-index: 1; }
+
+/* ─── Grid ─── */
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  perspective: 1800px;
+}
+
+/* ─── Card ─── */
+.app-card {
+  /* Entry animation vars */
+  --entry-x:      0px;
+  --entry-y:      90px;
+  --entry-rotate: 0deg;
+  /* Tilt vars (set by JS) */
+  --tilt-x:  0deg;
+  --tilt-y:  0deg;
+  --scale:   0.88;
+  --hover-x: 50%;
+  --hover-y: 50%;
+
+  min-height: 188px;
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015)),
+    rgba(8,10,18,0.82);
+  backdrop-filter: blur(14px);
+  transition:
+    transform    0.95s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity      0.8s ease,
+    filter       0.8s ease,
+    box-shadow   0.35s ease,
+    border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  /* Initial (hidden) state */
+  opacity: 0;
+  filter: blur(12px) saturate(0.78);
+  transform:
+    translate3d(var(--entry-x), var(--entry-y), 0)
+    rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y))
+    rotateZ(var(--entry-rotate))
+    scale(var(--scale));
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 22px 56px rgba(0,0,0,0.18);
+}
+
+/* Entry directions per column */
+.apps-grid .app-card.fade-up:nth-child(4n + 1) { --entry-x: -180px; --entry-y: 36px; --entry-rotate:  -9deg; }
+.apps-grid .app-card.fade-up:nth-child(4n + 2) { --entry-x:  160px; --entry-y: 18px; --entry-rotate:   8deg; }
+.apps-grid .app-card.fade-up:nth-child(4n + 3) { --entry-x: -140px; --entry-y: 68px; --entry-rotate:  -7deg; }
+.apps-grid .app-card.fade-up:nth-child(4n + 4) { --entry-x:  200px; --entry-y: 54px; --entry-rotate:  10deg; }
+
+/* Visible state */
+.apps-grid .app-card.fade-up.visible {
+  --entry-x: 0px; --entry-y: 0px; --entry-rotate: 0deg; --scale: 1;
+  opacity: 1;
+  filter: blur(0) saturate(1);
+  transform:
+    translate3d(0, 0, 0)
+    rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y))
+    rotateZ(0deg)
+    scale(var(--scale));
+}
+
+/* Gradient overlay */
+.app-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, rgba(45,212,191,0.08), rgba(59,130,246,0.04), transparent 55%);
+  opacity: 0;
+  transition: var(--transition);
+  pointer-events: none;
+}
+
+/* Cursor light */
+.app-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at var(--hover-x) var(--hover-y), rgba(255,255,255,0.2), transparent 40%),
+    linear-gradient(180deg, rgba(255,255,255,0.1), transparent 34%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.app-card.is-hovered {
+  --scale: 1.02;
+  border-color: rgba(196,240,255,0.24);
+  box-shadow:
+    0 34px 74px rgba(0,0,0,0.32),
+    0 12px 28px rgba(129,140,248,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+}
+.app-card.is-hovered::before,
+.app-card.is-hovered::after { opacity: 1; }
+
+/* ─── App icon ─── */
+.app-icon {
+  width: 52px; height: 52px;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  margin-bottom: 18px;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(45,212,191,0.22);
+  background: linear-gradient(145deg, rgba(16,185,129,0.18), rgba(59,130,246,0.16));
+  color: #eaffff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  transform: translateZ(30px);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.app-card.is-hovered .app-icon {
+  transform: translate3d(0, -4px, 32px) scale(1.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 14px 26px rgba(59,130,246,0.22);
+}
+
+.app-icon img,
+.app-icon svg {
+  width: 28px; height: 28px;
+  display: block;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* ─── Text ─── */
+.app-name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #fff;
+  transform: translateZ(18px);
+  transition: transform 0.35s ease;
+}
+.app-desc {
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: var(--muted);
+  transform: translateZ(12px);
+  transition: transform 0.35s ease;
+}
+.app-card.is-hovered .app-name { transform: translate3d(0, -2px, 18px); }
+.app-card.is-hovered .app-desc { transform: translateZ(12px); }

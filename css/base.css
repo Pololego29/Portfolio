@@ -1,0 +1,299 @@
+/* ═══════════════════════════════════════════════
+   BASE — Reset, Variables, Body, Typography, Layout
+   ═══════════════════════════════════════════════ */
+
+/* ─── Reset ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─── Design Tokens (Light) ─── */
+:root {
+  --bg:            #f6f8ff;
+  --bg2:           rgba(255,255,255,0.82);
+  --bg3:           #e9efff;
+  --border:        rgba(36,49,97,0.12);
+  --border2:       rgba(79,70,229,0.24);
+  --text:          #0f172a;
+  --muted:         #5b6485;
+  --accent:        #4f46e5;
+  --accent2:       #6366f1;
+  --accent3:       #312e81;
+  --glow:          rgba(99,102,241,0.18);
+  --nav-bg:        rgba(246,248,255,0.72);
+  --nav-bg-strong: rgba(246,248,255,0.94);
+  --glass:         rgba(255,255,255,0.72);
+  --glass-strong:  rgba(255,255,255,0.88);
+  --grid-line:     rgba(99,102,241,0.07);
+  --noise-opacity: 0.18;
+  --radius:        14px;
+  --radius-sm:     8px;
+  --shadow:        0 20px 60px rgba(63,76,138,0.16);
+  --transition:    0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ─── Design Tokens (Dark) ─── */
+html[data-theme='dark'] {
+  --bg:            #0b1420;
+  --bg2:           #121c2b;
+  --bg3:           #18253a;
+  --border:        rgba(255,255,255,0.07);
+  --border2:       rgba(99,102,241,0.25);
+  --text:          #eef4ff;
+  --muted:         #95a2bf;
+  --accent:        #6366f1;
+  --accent2:       #818cf8;
+  --accent3:       #4f46e5;
+  --glow:          rgba(99,102,241,0.18);
+  --nav-bg:        rgba(11,20,32,0.7);
+  --nav-bg-strong: rgba(11,20,32,0.92);
+  --glass:         rgba(18,28,43,0.74);
+  --glass-strong:  rgba(18,28,43,0.88);
+  --grid-line:     rgba(99,102,241,0.03);
+  --noise-opacity: 0.26;
+  --shadow:        0 20px 60px rgba(4,10,18,0.42);
+}
+
+/* ─── HTML ─── */
+html { scroll-behavior: smooth; }
+
+/* ─── Body ─── */
+body {
+  font-family: 'Inter', sans-serif;
+  background:
+    radial-gradient(circle at 50% -8%,  rgba(45,212,191,0.2),   transparent 28%),
+    radial-gradient(circle at 82% 12%,  rgba(96,165,250,0.16),  transparent 26%),
+    radial-gradient(circle at 18% 42%,  rgba(129,140,248,0.14), transparent 24%),
+    radial-gradient(circle at 78% 72%,  rgba(34,197,94,0.1),    transparent 20%),
+    linear-gradient(180deg, #0d1825 0%, #0d1624 22%, #101c2d 46%, #0c1827 72%, #09121d 100%);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
+  background-attachment: fixed;
+}
+
+/* Loading state — hide page content until ready */
+body.is-loading { overflow: hidden; }
+body.is-loading nav,
+body.is-loading .mobile-menu,
+body.is-loading section,
+body.is-loading footer {
+  opacity: 0;
+  transform: translateY(12px);
+}
+body.site-ready nav,
+body.site-ready .mobile-menu,
+body.site-ready section,
+body.site-ready footer {
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar         { width: 5px; }
+::-webkit-scrollbar-track   { background: var(--bg); }
+::-webkit-scrollbar-thumb   { background: var(--accent3); border-radius: 99px; }
+
+/* ─── Text Selection ─── */
+::selection { background: var(--accent); color: #fff; }
+
+/* ─── Noise texture overlay ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--noise-opacity);
+}
+
+/* ─── Ambient grid background ─── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at top,       rgba(34,197,94,0.11),  transparent 28%),
+    radial-gradient(circle at 20% 26%,   rgba(59,130,246,0.12), transparent 24%),
+    radial-gradient(circle at 80% 66%,   rgba(99,102,241,0.09), transparent 24%),
+    linear-gradient(180deg,
+      rgba(34,197,94,0.08)  0%,
+      rgba(8,10,18,0)       18%,
+      rgba(99,102,241,0.06) 42%,
+      rgba(8,10,18,0)       68%,
+      rgba(56,189,248,0.07) 100%
+    );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.82;
+}
+
+/* ─── Fond dynamique : orbes flottantes ─── */
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#bg-interference-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.95;
+}
+
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+/* Orbe 1 — violet, haut-gauche, lent */
+.bg-orb-1 {
+  width: 700px; height: 500px;
+  top: -12%; left: -10%;
+  background: radial-gradient(circle, rgba(129,140,248,0.34), transparent 68%);
+  filter: blur(72px);
+  opacity: 0.76;
+  animation: orb-drift-1 22s ease-in-out infinite alternate;
+}
+
+/* Orbe 2 — vert émeraude, haut-droite */
+.bg-orb-2 {
+  width: 550px; height: 550px;
+  top: 8%; right: -12%;
+  background: radial-gradient(circle, rgba(45,212,191,0.28), transparent 70%);
+  filter: blur(80px);
+  opacity: 0.7;
+  animation: orb-drift-2 28s ease-in-out infinite alternate;
+}
+
+/* Orbe 3 — bleu ciel, milieu-gauche */
+.bg-orb-3 {
+  width: 620px; height: 380px;
+  top: 42%; left: 6%;
+  background: radial-gradient(circle, rgba(96,165,250,0.24), transparent 70%);
+  filter: blur(76px);
+  opacity: 0.66;
+  animation: orb-drift-3 32s ease-in-out infinite alternate;
+}
+
+/* Orbe 4 — violet/rose, bas-droite */
+.bg-orb-4 {
+  width: 500px; height: 500px;
+  bottom: 4%; right: 2%;
+  background: radial-gradient(circle, rgba(168,85,247,0.22), transparent 70%);
+  filter: blur(88px);
+  opacity: 0.6;
+  animation: orb-drift-4 25s ease-in-out infinite alternate;
+}
+
+/* Orbe 5 — cyan menthe, centre */
+.bg-orb-5 {
+  width: 460px; height: 460px;
+  top: 55%; left: 38%;
+  background: radial-gradient(circle, rgba(45,212,191,0.22), transparent 70%);
+  filter: blur(82px);
+  opacity: 0.58;
+  animation: orb-drift-5 36s ease-in-out infinite alternate;
+}
+
+/* Orbe 6 — indigo chaud, milieu-droite */
+.bg-orb-6 {
+  width: 420px; height: 320px;
+  top: 28%; right: 20%;
+  background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%);
+  filter: blur(64px);
+  opacity: 0.56;
+  animation: orb-drift-6 20s ease-in-out infinite alternate;
+}
+
+@keyframes orb-drift-1 {
+  from { transform: translate(  0px,   0px) scale(1);    }
+  to   { transform: translate(140px, 180px) scale(1.18); }
+}
+@keyframes orb-drift-2 {
+  from { transform: translate(  0px,   0px) scale(1);    }
+  to   { transform: translate(-120px, 220px) scale(0.88); }
+}
+@keyframes orb-drift-3 {
+  from { transform: translate(  0px,   0px) scale(1);    }
+  to   { transform: translate( 90px,-140px) scale(1.12); }
+}
+@keyframes orb-drift-4 {
+  from { transform: translate(  0px,   0px) scale(1);    }
+  to   { transform: translate(-160px,-110px) scale(1.22); }
+}
+@keyframes orb-drift-5 {
+  from { transform: translate(  0px,   0px) scale(1);    }
+  to   { transform: translate(180px,  90px) scale(0.82); }
+}
+@keyframes orb-drift-6 {
+  from { transform: translate(  0px,   0px) scale(1);    }
+  to   { transform: translate(-80px, 150px) scale(1.14); }
+}
+
+/* ─── Typography helpers ─── */
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent2) 60%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Sections ─── */
+section {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+/* ─── Container ─── */
+.container { max-width: 1460px; margin: 0 auto; padding: 0 44px; }
+
+/* ─── Section header ─── */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.section-tag::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--accent2);
+}
+
+.section-title {
+  font-size: clamp(1.9rem, 4vw, 2.85rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  max-width: 760px;
+  line-height: 1.75;
+}
+
+.section-header {
+  margin-bottom: 72px;
+  position: relative;
+}
