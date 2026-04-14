@@ -1,111 +1,119 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Paul Lamblin — Ingénieur Informatique</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body class="is-loading">
 
+  <!-- ─── LOADING SCREEN ─── -->
   <div class="loading-screen" id="loadingScreen" role="status" aria-live="polite" aria-label="Chargement du portfolio">
-    <div class="loading-screen__grid"></div>
-    <div class="loading-screen__content">
-      <div class="loading-screen__brand">Portfolio</div>
-      <div class="loading-screen__title">Chargement du portfolio</div>
-      <div class="loading-screen__subtitle">Préparation de l'expérience</div>
-      <div class="loading-screen__bar">
-        <span class="loading-screen__bar-fill" id="loadingBar"></span>
+    <div class="loading-grid"></div>
+    <div class="loading-content">
+      <div class="loading-brand">~/portfolio</div>
+      <div class="loading-title">Paul Lamblin</div>
+      <div class="loading-subtitle">Chargement du portfolio</div>
+      <div class="loading-bar-wrap">
+        <span class="loading-bar-fill" id="loadingBar"></span>
       </div>
-      <div class="loading-screen__meta">
+      <div class="loading-meta">
         <span id="loadingPercent">0%</span>
-        <span id="loadingStatus">Initialisation de l'interface</span>
+        <span id="loadingStatus">Initialisation</span>
       </div>
     </div>
   </div>
 
-<!-- ─── NAVBAR ─── -->
-  <nav id="navbar">
-    <a href="#hero" class="nav-logo">Portfolio</a>
-    <ul class="nav-links">
-      <li><a href="#hero">Accueil</a></li>
-      <li><a href="#about">À propos</a></li>
-      <li><a href="#projects">Projets</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+  <!-- ─── NAVBAR ─── -->
+  <div class="navbar-wrapper" id="navbar">
+    <nav class="navbar-inner">
+      <a href="#hero" class="nav-logo"><span class="logo-dim">P</span>L</a>
+      <div class="nav-sep"></div>
+      <div class="nav-links">
+        <a href="#hero">Accueil</a>
+        <a href="#about">À propos</a>
+        <a href="#projects">Projets</a>
+        <a href="#skills">Compétences</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-sep"></div>
+      <a href="#" class="nav-cv">CV</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
 
+  <!-- Mobile menu -->
   <div class="mobile-menu" id="mobileMenu">
     <a href="#hero" class="mobile-link">Accueil</a>
     <a href="#about" class="mobile-link">À propos</a>
     <a href="#projects" class="mobile-link">Projets</a>
+    <a href="#skills" class="mobile-link">Compétences</a>
     <a href="#contact" class="mobile-link">Contact</a>
   </div>
 
   <!-- ─── HERO ─── -->
   <section id="hero">
-    <div class="hero-glow"></div>
+    <div class="scanlines"></div>
     <div class="hero-orb hero-orb-a"></div>
     <div class="hero-orb hero-orb-b"></div>
-    <div class="container">
-      <div class="hero-inner">
-        <div class="hero-content">
-          <div class="hero-badge fade-up">
-            <span class="dot"></span>
-            Disponible pour une alternance 2025–2026
-          </div>
-          <h1 class="hero-title fade-up delay-1">
-            <span class="gradient-text">Paul Lamblin</span><br />
-            Ingénieur<br />Informatique
-          </h1>
-          <p class="hero-sub fade-up delay-2">
-            Étudiant passionné par la <strong>data</strong>, l'<strong>intelligence artificielle</strong>,
-            le <strong>cloud</strong> et les systèmes complexes. Je construis des projets concrets
-            pour résoudre de vrais problèmes.
-          </p>
-          <div class="hero-actions fade-up delay-3">
-            <a href="#projects" class="btn btn-primary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              Voir mes projets
-            </a>
-            <a href="#contact" class="btn btn-ghost">Me contacter</a>
-          </div>
-          <div class="hero-stats fade-up delay-4">
-            <div class="stat-item">
-              <span class="stat-num">5+</span>
-              <span class="stat-label">Projets réalisés</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-num">3+</span>
-              <span class="stat-label">Années d'études</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-num">8+</span>
-              <span class="stat-label">Technologies maîtrisées</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- Photo holographique -->
-        <div class="holo-wrap fade-up delay-2">
-          <div class="holo-card" id="holoCard">
-            <img src="467DC94B-D157-4271-B871-D5E9795115F6_1_105_c.jpeg" alt="Paul Lamblin" />
-            <div class="holo-shine" id="holoShine"></div>
-            <div class="holo-glare" id="holoGlare"></div>
-            <div class="holo-badge">
-              <span class="dot"></span>
-              paul.lamblin
-            </div>
-          </div>
-        </div>
+    <div class="hero-container">
+      <!-- Terminal badge -->
+      <div class="terminal-badge fade-up">
+        <span class="pulse-dot"></span>
+        <span>Disponible pour une alternance 2025–2026</span>
+      </div>
+
+      <!-- Terminal prompt -->
+      <div class="term-prompt fade-up delay-1">
+        <span class="term-dim">~/portfolio $&nbsp;</span>
+        <span>whoami</span>
+        <span class="term-cursor"></span>
+      </div>
+
+      <!-- Name -->
+      <h1 class="hero-title fade-up delay-1">
+        <span class="t-light">Bonjour, je suis</span>
+        <span class="gradient-text">Paul Lamblin</span>
+      </h1>
+
+      <!-- Role -->
+      <div class="hero-role fade-up delay-2">Ingénieur Informatique</div>
+
+      <!-- Description -->
+      <p class="hero-desc fade-up delay-2">
+        Étudiant passionné par la <strong>data</strong>, l'<strong>intelligence artificielle</strong>,
+        le <strong>cloud</strong> et les systèmes complexes. Je construis des projets concrets
+        pour résoudre de vrais problèmes.
+      </p>
+
+      <!-- CTAs -->
+      <div class="hero-ctas fade-up delay-3">
+        <a href="#projects" class="btn-primary">Voir mes projets</a>
+        <a href="#contact" class="btn-ghost">Me contacter</a>
+      </div>
+
+      <!-- Socials -->
+      <div class="hero-socials fade-up delay-4">
+        <a href="https://github.com/paullamblin" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/paullamblin" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="mailto:paul.lamblin@email.com" class="social-link" aria-label="Email">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </a>
       </div>
     </div>
+
+    <!-- SCROLL ARROWS (gardés !) -->
     <div class="scroll-hint">
       <span>scroll</span>
       <div class="scroll-arrow"></div>
@@ -114,52 +122,41 @@
 
   <!-- ─── ABOUT ─── -->
   <section id="about">
+    <div class="orb orb-tr"></div>
+    <div class="orb orb-bl"></div>
     <div class="container">
-      <div class="about-block">
-
-        <!-- GAUCHE : texte -->
-        <div class="about-text fade-up">
-          <span class="section-tag">À propos</span>
-          <h2 class="section-title">Motivé, curieux,<br /><span class="gradient-text">orienté résultats.</span></h2>
-          <p>
-            Je suis Paul Lamblin, étudiant en ingénierie informatique avec une forte appétence pour les
-            domaines techniques à fort impact : data engineering, intelligence artificielle, cloud et systèmes distribués.
-          </p>
-          <p>
-            Mon approche est résolument concrète : j'apprends en construisant, je documente ce que je fais
-            et je cherche systématiquement à comprendre les mécanismes sous-jacents derrière les outils que j'utilise.
-          </p>
-          <p>
-            Polyvalent et rigoureux, je suis à la recherche d'une alternance ambitieuse dans un environnement technique stimulant.
-          </p>
-          <div class="about-tags">
-            <span class="tag">Curieux</span>
-            <span class="tag">Rigoureux</span>
-            <span class="tag">Autonome</span>
-            <span class="tag">Orienté résultats</span>
-            <span class="tag">Esprit analytique</span>
-          </div>
+      <div class="section-head fade-up">
+        <div class="eyebrow">
+          <div class="eyebrow-line"></div>
+          <span class="eyebrow-label">À propos</span>
         </div>
+        <h2 class="sec-title">
+          <span class="t-light">À propos de </span><span class="t-bold">moi</span>
+        </h2>
+        <p class="sec-desc">
+          Motivé, curieux et orienté résultats — je construis mes compétences pas à pas, en allant au fond des choses.
+        </p>
+      </div>
 
-        <!-- DROITE : badge 2D pendule -->
-        <div class="badge-column fade-up delay-2">
+      <div class="about-grid">
+        <!-- Badge pendule (gardé !) -->
+        <div class="about-badge-col fade-up delay-1">
           <svg class="badge-rope-svg" id="badgeRopeSvg">
             <path id="badgeRopePath"
               fill="none"
               stroke="url(#ropeGrad)"
-              stroke-width="5.5"
+              stroke-width="5"
               stroke-linecap="round"
               stroke-linejoin="round"
               filter="url(#ropeShadow)"/>
             <defs>
               <linearGradient id="ropeGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stop-color="rgba(209, 244, 255, 0.92)"/>
-                <stop offset="28%"  stop-color="rgba(109, 224, 205, 0.88)"/>
-                <stop offset="72%"  stop-color="rgba(56, 143, 255, 0.78)"/>
-                <stop offset="100%" stop-color="rgba(33, 99, 193, 0.64)"/>
+                <stop offset="0%"   stop-color="rgba(74,222,128,0.9)"/>
+                <stop offset="50%"  stop-color="rgba(34,211,238,0.8)"/>
+                <stop offset="100%" stop-color="rgba(16,185,129,0.5)"/>
               </linearGradient>
               <filter id="ropeShadow" x="-40%" y="-40%" width="180%" height="180%">
-                <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.35)"/>
+                <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.5)"/>
               </filter>
             </defs>
           </svg>
@@ -172,394 +169,405 @@
               <div class="badge-name">Paul Lamblin</div>
               <div class="badge-role">Ingénieur Informatique</div>
               <div class="badge-status">
-                <span class="dot" style="background:#4ade80;box-shadow:0 0 6px #4ade80"></span>
+                <span class="pulse-dot"></span>
                 Dispo. alternance
               </div>
             </div>
           </div>
         </div>
 
+        <!-- Info cards -->
+        <div class="about-cards fade-up delay-2">
+          <div class="about-card">
+            <div class="about-card-icon violet">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            <h3>École d'ingénieur</h3>
+            <p>Cycle ingénieur en cours, spécialisation data engineering, IA et systèmes. Après 2 ans de CPGE MPSI/MP.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon emerald">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <h3>Data & IA</h3>
+            <p>Passionné par les pipelines de données, le machine learning et les systèmes distribués à grande échelle.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon cyan">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+            </div>
+            <h3>Curieux & rigoureux</h3>
+            <p>J'apprends en construisant, documente ce que je fais et cherche à comprendre les mécanismes sous-jacents.</p>
+          </div>
+          <div class="about-card">
+            <div class="about-card-icon pink">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>Recherche d'alternance</h3>
+            <p>Disponible pour une alternance ambitieuse dans un environnement technique stimulant à partir de 2025.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-    <!-- ─── SKILLS ─── -->
+  <!-- ─── SKILLS ─── -->
   <section id="skills">
+    <div class="orb orb-top-center"></div>
     <div class="container">
-      <div class="section-header fade-up">
-        <span class="section-tag">Compétences</span>
-        <h2 class="section-title">Stack technique</h2>
-        <p class="section-sub">Des fondamentaux solides jusqu'aux outils modernes de la data et du cloud.</p>
+      <div class="section-head fade-up">
+        <div class="eyebrow">
+          <div class="eyebrow-line"></div>
+          <span class="eyebrow-label">Techniques</span>
+        </div>
+        <h2 class="sec-title">
+          <span class="t-light">Compétences </span><span class="t-bold">Techniques</span>
+        </h2>
       </div>
-      <div class="skills-grid">
-        <div class="skill-card fade-up delay-1">
-          <div class="skill-icon">🐍</div>
-          <div class="skill-name">Data & IA</div>
-          <div class="skill-desc">Analyse, traitement de données massives et développement de modèles ML.</div>
-          <div class="skill-pills">
-            <span class="pill">Python</span>
-            <span class="pill">Pandas</span>
-            <span class="pill">NumPy</span>
-            <span class="pill">Scikit-learn</span>
-            <span class="pill">TensorFlow</span>
-            <span class="pill">SQL</span>
+
+      <div class="skills-two fade-up delay-1">
+        <!-- Langages & Data -->
+        <div class="skill-card">
+          <div class="skill-card-head">
+            <div class="skill-icon-wrap cyan-bg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div>
+              <h3>Langages & Data</h3>
+              <p class="small-note">Stack principal</p>
+            </div>
+          </div>
+          <div class="pills">
+            <span class="pill cyan">Python</span>
+            <span class="pill cyan">SQL</span>
+            <span class="pill cyan">Pandas</span>
+            <span class="pill cyan">NumPy</span>
+            <span class="pill cyan">Scikit-learn</span>
+            <span class="pill cyan">TensorFlow</span>
+            <span class="pill cyan">Java</span>
+            <span class="pill cyan">C/C++</span>
+            <span class="pill cyan">JavaScript</span>
+            <span class="pill cyan">HuggingFace</span>
+            <span class="pill cyan">PyTorch</span>
+            <span class="pill cyan">REST API</span>
           </div>
         </div>
-        <div class="skill-card fade-up delay-2">
-          <div class="skill-icon">☁️</div>
-          <div class="skill-name">Cloud & DevOps</div>
-          <div class="skill-desc">Déploiement, conteneurisation et gestion d'infrastructure cloud moderne.</div>
-          <div class="skill-pills">
-            <span class="pill">AWS</span>
-            <span class="pill">Docker</span>
-            <span class="pill">Git</span>
-            <span class="pill">Linux</span>
-            <span class="pill">CI/CD</span>
+
+        <!-- Cloud & Outils -->
+        <div class="skill-card">
+          <div class="skill-card-head">
+            <div class="skill-icon-wrap emerald-bg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+            </div>
+            <div>
+              <h3>Cloud & DevOps</h3>
+              <p class="small-note">Infrastructure & outils</p>
+            </div>
+          </div>
+          <div class="pills">
+            <span class="pill emerald">AWS</span>
+            <span class="pill emerald">Docker</span>
+            <span class="pill emerald">Git</span>
+            <span class="pill emerald">Linux</span>
+            <span class="pill emerald">CI/CD</span>
+            <span class="pill emerald">Spark</span>
+            <span class="pill emerald">Kafka</span>
+            <span class="pill emerald">PostgreSQL</span>
+            <span class="pill emerald">MongoDB</span>
+            <span class="pill emerald">Airflow</span>
+            <span class="pill emerald">Grafana</span>
+            <span class="pill emerald">Shell</span>
           </div>
         </div>
-        <div class="skill-card fade-up delay-3">
-          <div class="skill-icon">🗄️</div>
-          <div class="skill-name">Big Data</div>
-          <div class="skill-desc">Pipelines de données, traitement distribué et gestion de grands volumes.</div>
-          <div class="skill-pills">
-            <span class="pill">Spark</span>
-            <span class="pill">Kafka</span>
-            <span class="pill">PostgreSQL</span>
-            <span class="pill">MongoDB</span>
-            <span class="pill">Airflow</span>
-          </div>
-        </div>
-        <div class="skill-card fade-up delay-1">
-          <div class="skill-icon">💻</div>
-          <div class="skill-name">Développement</div>
-          <div class="skill-desc">Conception logicielle, algorithmique et développement applicatif.</div>
-          <div class="skill-pills">
-            <span class="pill">Python</span>
-            <span class="pill">Java</span>
-            <span class="pill">C/C++</span>
-            <span class="pill">JavaScript</span>
-            <span class="pill">REST API</span>
-          </div>
-        </div>
-        <div class="skill-card fade-up delay-2">
-          <div class="skill-icon">🔒</div>
-          <div class="skill-name">Systèmes & Réseaux</div>
-          <div class="skill-desc">Administration système, réseaux et bases solides en informatique bas niveau.</div>
-          <div class="skill-pills">
-            <span class="pill">Linux</span>
-            <span class="pill">Shell</span>
-            <span class="pill">TCP/IP</span>
-            <span class="pill">Virtualisation</span>
-          </div>
-        </div>
-        <div class="skill-card fade-up delay-3">
-          <div class="skill-icon">📊</div>
-          <div class="skill-name">Visualisation & BI</div>
-          <div class="skill-desc">Dashboards, reporting et storytelling data pour aider à la décision.</div>
-          <div class="skill-pills">
-            <span class="pill">Power BI</span>
-            <span class="pill">Matplotlib</span>
-            <span class="pill">Seaborn</span>
-            <span class="pill">Tableau</span>
-          </div>
-        </div>
+      </div>
+
+      <!-- Learning banner -->
+      <div class="learning-banner fade-up delay-2">
+        <h3>Formation continue</h3>
+        <p>
+          En école d'ingénieur, je reste constamment à jour avec les dernières technologies data, cloud et IA.
+          J'apprends en construisant des projets concrets, en explorant des datasets réels
+          et en approfondissant les fondements théoriques derrière les outils que j'utilise.
+        </p>
       </div>
     </div>
   </section>
 
   <!-- ─── PROJECTS ─── -->
   <section id="projects">
+    <div class="orb orb-center-large"></div>
     <div class="container">
-      <div class="section-header fade-up">
-        <span class="section-tag">Projets</span>
-        <h2 class="section-title">Ce que j'ai construit</h2>
-        <p class="section-sub">Des projets concrets qui mêlent technique, curiosité et envie de résoudre de vrais problèmes.</p>
+      <div class="section-head fade-up">
+        <div class="eyebrow">
+          <div class="eyebrow-line cyan"></div>
+          <span class="eyebrow-label cyan-col">Mes</span>
+        </div>
+        <h2 class="sec-title">
+          <span class="t-light">Mes </span><span class="t-bold">Projets</span>
+        </h2>
+        <p class="sec-desc">Des projets concrets qui mêlent technique, curiosité et envie de résoudre de vrais problèmes.</p>
       </div>
+
       <div class="projects-grid">
 
-        <div class="project-card featured fade-up">
-          <div>
-            <div class="project-header">
-              <div class="project-icon">🤖</div>
-              <div class="project-links">
-                <a href="#" class="project-link" title="GitHub">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                </a>
-              </div>
-            </div>
-            <h3 class="project-title" style="margin-top:20px">Pipeline de prédiction & analyse de données</h3>
-            <p class="project-desc">
-              Pipeline end-to-end de traitement et d'analyse de données : ingestion, nettoyage, feature engineering,
-              entraînement d'un modèle de machine learning et visualisation des résultats. Déployé via une API REST légère.
-            </p>
-            <div class="project-stack">
-              <span class="stack-badge">Python</span>
-              <span class="stack-badge">Pandas</span>
-              <span class="stack-badge">Scikit-learn</span>
-              <span class="stack-badge">FastAPI</span>
-              <span class="stack-badge">Docker</span>
-            </div>
-          </div>
-          <div class="project-featured-visual">
-            <span style="position:relative;z-index:1">📈</span>
-          </div>
-        </div>
-
         <div class="project-card fade-up delay-1">
-          <div class="project-header">
-            <div class="project-icon">🗃️</div>
-            <div class="project-links">
-              <a href="#" class="project-link" title="GitHub">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          <div class="proj-img" style="background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(34,211,238,.08))">
+            <span>📈</span>
+          </div>
+          <div class="proj-body">
+            <h3>Pipeline de prédiction & analyse de données</h3>
+            <p>Pipeline end-to-end de traitement et d'analyse : ingestion, nettoyage, feature engineering, entraînement ML et visualisation des résultats. Déployé via une API REST légère.</p>
+            <div class="proj-tags">
+              <span class="ptag">Python</span>
+              <span class="ptag">Pandas</span>
+              <span class="ptag">Scikit-learn</span>
+              <span class="ptag">FastAPI</span>
+              <span class="ptag">Docker</span>
+            </div>
+            <div class="proj-links">
+              <a href="#" class="plink">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                Code
               </a>
             </div>
-          </div>
-          <h3 class="project-title">Système de base de données distribuée</h3>
-          <p class="project-desc">
-            Conception et implémentation d'un moteur de stockage simplifié avec gestion des transactions,
-            index B-tree et récupération après crash.
-          </p>
-          <div class="project-stack">
-            <span class="stack-badge">C++</span>
-            <span class="stack-badge">SQLite</span>
-            <span class="stack-badge">Linux</span>
           </div>
         </div>
 
         <div class="project-card fade-up delay-2">
-          <div class="project-header">
-            <div class="project-icon">📡</div>
-            <div class="project-links">
-              <a href="#" class="project-link" title="GitHub">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          <div class="proj-img" style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(59,130,246,.08))">
+            <span>🗃️</span>
+          </div>
+          <div class="proj-body">
+            <h3>Système de base de données distribuée</h3>
+            <p>Conception et implémentation d'un moteur de stockage simplifié avec gestion des transactions, index B-tree et récupération après crash.</p>
+            <div class="proj-tags">
+              <span class="ptag">C++</span>
+              <span class="ptag">SQLite</span>
+              <span class="ptag">Linux</span>
+            </div>
+            <div class="proj-links">
+              <a href="#" class="plink">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                Code
               </a>
             </div>
           </div>
-          <h3 class="project-title">Dashboard de monitoring cloud</h3>
-          <p class="project-desc">
-            Interface de visualisation temps réel des métriques d'une infrastructure cloud :
-            CPU, mémoire, latences réseau, alertes automatiques.
-          </p>
-          <div class="project-stack">
-            <span class="stack-badge">Python</span>
-            <span class="stack-badge">AWS</span>
-            <span class="stack-badge">Grafana</span>
-            <span class="stack-badge">Prometheus</span>
+        </div>
+
+        <div class="project-card fade-up delay-3">
+          <div class="proj-img" style="background:linear-gradient(135deg,rgba(34,211,238,.12),rgba(6,182,212,.08))">
+            <span>📡</span>
+          </div>
+          <div class="proj-body">
+            <h3>Dashboard de monitoring cloud</h3>
+            <p>Interface de visualisation temps réel des métriques d'une infrastructure cloud : CPU, mémoire, latences réseau, alertes automatiques.</p>
+            <div class="proj-tags">
+              <span class="ptag">Python</span>
+              <span class="ptag">AWS</span>
+              <span class="ptag">Grafana</span>
+              <span class="ptag">Prometheus</span>
+            </div>
+            <div class="proj-links">
+              <a href="#" class="plink">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                Code
+              </a>
+            </div>
           </div>
         </div>
 
         <div class="project-card fade-up delay-1">
-          <div class="project-header">
-            <div class="project-icon">🧠</div>
-            <div class="project-links">
-              <a href="#" class="project-link" title="GitHub">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          <div class="proj-img" style="background:linear-gradient(135deg,rgba(244,114,182,.12),rgba(168,85,247,.08))">
+            <span>🧠</span>
+          </div>
+          <div class="proj-body">
+            <h3>Classificateur NLP multiclasse</h3>
+            <p>Modèle de classification de textes basé sur des transformers fine-tunés pour catégoriser des documents techniques avec une précision &gt; 90%.</p>
+            <div class="proj-tags">
+              <span class="ptag">Python</span>
+              <span class="ptag">HuggingFace</span>
+              <span class="ptag">PyTorch</span>
+              <span class="ptag">BERT</span>
+            </div>
+            <div class="proj-links">
+              <a href="#" class="plink">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                Code
               </a>
             </div>
           </div>
-          <h3 class="project-title">Classificateur NLP multiclasse</h3>
-          <p class="project-desc">
-            Modèle de classification de textes basé sur des transformers fine-tunés pour catégoriser
-            des documents techniques avec une précision &gt; 90%.
-          </p>
-          <div class="project-stack">
-            <span class="stack-badge">Python</span>
-            <span class="stack-badge">HuggingFace</span>
-            <span class="stack-badge">PyTorch</span>
-            <span class="stack-badge">BERT</span>
-          </div>
         </div>
 
+      </div>
+
+      <div class="proj-cta fade-up">
+        <p>Vous voulez voir plus de mes réalisations ?</p>
+        <a href="https://github.com/paullamblin" target="_blank" rel="noopener" class="btn-outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          Voir mon GitHub
+        </a>
       </div>
     </div>
   </section>
 
   <!-- ─── PARCOURS ─── -->
   <section id="parcours">
+    <div class="orb orb-tr"></div>
     <div class="container">
-      <div class="section-header fade-up">
-        <span class="section-tag">Parcours</span>
-        <h2 class="section-title">Mon chemin</h2>
-        <p class="section-sub">Formation académique et premières expériences qui ont forgé mes compétences.</p>
+      <div class="section-head fade-up">
+        <div class="eyebrow">
+          <div class="eyebrow-line"></div>
+          <span class="eyebrow-label">Parcours</span>
+        </div>
+        <h2 class="sec-title">
+          <span class="t-light">Mon </span><span class="t-bold">chemin</span>
+        </h2>
+        <p class="sec-desc">Formation académique et premières expériences qui ont forgé mes compétences.</p>
       </div>
-      <div class="timeline fade-up delay-1">
 
-        <div class="timeline-item">
-          <div class="timeline-dot current"></div>
-          <div class="timeline-date">2023 — Aujourd'hui</div>
-          <div class="timeline-card">
-            <div class="timeline-role">École d'ingénieur en Informatique</div>
-            <div class="timeline-org">Formation spécialisée Informatique / Data / IA</div>
-            <div class="timeline-desc">
+      <div class="timeline fade-up delay-1">
+        <div class="tl-item">
+          <div class="tl-dot current"></div>
+          <div class="tl-date">2023 — Aujourd'hui</div>
+          <div class="tl-card">
+            <div class="tl-role">École d'ingénieur en Informatique</div>
+            <div class="tl-org">Formation spécialisée Informatique / Data / IA</div>
+            <p class="tl-desc">
               Cycle ingénieur en cours — spécialisation en data engineering, intelligence artificielle et systèmes.
               Projets académiques orientés concret, hackathons, travaux de groupe et développement technique en autonomie.
-            </div>
+            </p>
           </div>
         </div>
-
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">2021 — 2023</div>
-          <div class="timeline-card">
-            <div class="timeline-role">Classes Préparatoires aux Grandes Écoles</div>
-            <div class="timeline-org">MPSI / MP — Mathématiques, Physique, Informatique</div>
-            <div class="timeline-desc">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">2021 — 2023</div>
+          <div class="tl-card">
+            <div class="tl-role">Classes Préparatoires aux Grandes Écoles</div>
+            <div class="tl-org">MPSI / MP — Mathématiques, Physique, Informatique</div>
+            <p class="tl-desc">
               Deux ans de formation intensive en mathématiques, physique et algorithmique.
               Développement d'une rigueur analytique, d'une capacité à apprendre rapidement et à résoudre des problèmes complexes sous contrainte.
-            </div>
+            </p>
           </div>
         </div>
-
-        <div class="timeline-item">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">2021</div>
-          <div class="timeline-card">
-            <div class="timeline-role">Baccalauréat Scientifique</div>
-            <div class="timeline-org">Mention Très Bien — Spécialités Maths & Numérique</div>
-            <div class="timeline-desc">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">2021</div>
+          <div class="tl-card">
+            <div class="tl-role">Baccalauréat Scientifique</div>
+            <div class="tl-org">Mention Très Bien — Spécialités Maths & Numérique</div>
+            <p class="tl-desc">
               Obtenu avec mention Très Bien. Première découverte formelle de la programmation, de l'algorithmique et des bases de l'informatique.
-            </div>
+            </p>
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
   <!-- ─── OBJECTIFS ─── -->
   <section id="objectifs">
+    <div class="orb orb-bl"></div>
     <div class="container">
-      <div class="section-header fade-up">
-        <span class="section-tag">Objectifs</span>
-        <h2 class="section-title">Où je veux aller</h2>
-        <p class="section-sub">Des ambitions claires, ancrées dans des domaines à fort impact.</p>
+      <div class="section-head fade-up">
+        <div class="eyebrow">
+          <div class="eyebrow-line"></div>
+          <span class="eyebrow-label">Objectifs</span>
+        </div>
+        <h2 class="sec-title">
+          <span class="t-light">Où je </span><span class="t-bold">veux aller</span>
+        </h2>
+        <p class="sec-desc">Des ambitions claires, ancrées dans des domaines à fort impact.</p>
       </div>
-      <div class="goals-grid">
 
+      <div class="goals-grid">
         <div class="goal-card fade-up delay-1">
           <div class="goal-num">01</div>
-          <h3 class="goal-title">Alternance technique ambitieuse</h3>
-          <p class="goal-desc">
-            Rejoindre une entreprise innovante pour une alternance en data engineering, data science ou développement cloud,
-            où je pourrai apprendre de pairs expérimentés tout en apportant une contribution réelle.
-          </p>
-          <span class="goal-highlight">Court terme</span>
+          <h3>Alternance technique ambitieuse</h3>
+          <p>Rejoindre une entreprise innovante pour une alternance en data engineering, data science ou développement cloud, où je pourrai apprendre de pairs expérimentés tout en apportant une contribution réelle.</p>
+          <span class="goal-tag">Court terme</span>
         </div>
-
         <div class="goal-card fade-up delay-2">
           <div class="goal-num">02</div>
-          <h3 class="goal-title">Expertise Data & IA</h3>
-          <p class="goal-desc">
-            Me spécialiser profondément dans la data et l'IA appliquée : pipelines de données à grande échelle,
-            MLOps, LLMs et systèmes de recommandation. Devenir un profil solide et reconnu dans ce domaine.
-          </p>
-          <span class="goal-highlight">Moyen terme</span>
+          <h3>Expertise Data & IA</h3>
+          <p>Me spécialiser profondément dans la data et l'IA appliquée : pipelines de données à grande échelle, MLOps, LLMs et systèmes de recommandation. Devenir un profil solide et reconnu dans ce domaine.</p>
+          <span class="goal-tag">Moyen terme</span>
         </div>
-
         <div class="goal-card fade-up delay-3">
           <div class="goal-num">03</div>
-          <h3 class="goal-title">Impact et entrepreneuriat tech</h3>
-          <p class="goal-desc">
-            À terme, participer à la création d'un produit ou d'une entreprise technologique qui crée une valeur réelle.
-            Mêler expertise technique et vision pour construire quelque chose qui dure.
-          </p>
-          <span class="goal-highlight">Long terme</span>
+          <h3>Impact et entrepreneuriat tech</h3>
+          <p>À terme, participer à la création d'un produit ou d'une entreprise technologique qui crée une valeur réelle. Mêler expertise technique et vision pour construire quelque chose qui dure.</p>
+          <span class="goal-tag">Long terme</span>
         </div>
-
       </div>
     </div>
   </section>
 
   <!-- ─── APPS ─── -->
   <section id="apps">
+    <div class="orb orb-top-center"></div>
     <div class="container">
-      <div class="section-header fade-up">
-        <span class="section-tag">Outils</span>
-        <h2 class="section-title">Applications et outils que j'utilise</h2>
-        <p class="section-sub">
-          Mon stack quotidien pour developper, experimenter, concevoir et deployer des projets concrets.
-        </p>
+      <div class="section-head fade-up">
+        <div class="eyebrow">
+          <div class="eyebrow-line cyan"></div>
+          <span class="eyebrow-label cyan-col">Outils</span>
+        </div>
+        <h2 class="sec-title">
+          <span class="t-light">Applications et </span><span class="t-bold">outils</span>
+        </h2>
+        <p class="sec-desc">Mon stack quotidien pour développer, expérimenter, concevoir et déployer des projets concrets.</p>
       </div>
 
-      <div class="apps-grid">
-        <div class="app-card fade-up delay-1">
-          <div class="app-icon">
-            <img src="Visual_Studio_Code_1.35_icon.svg.png" alt="Logo Visual Studio Code" />
-          </div>
+      <div class="apps-grid fade-up delay-1">
+        <div class="app-card">
+          <div class="app-icon"><img src="Visual_Studio_Code_1.35_icon.svg.png" alt="VS Code" /></div>
           <div class="app-name">Visual Studio Code</div>
           <p class="app-desc">Mon environnement principal pour coder, structurer mes projets et avancer efficacement au quotidien.</p>
         </div>
-
-        <div class="app-card fade-up delay-2">
-          <div class="app-icon">
-            <img src="git-icon-logo.svg" alt="Logo Git" />
-          </div>
+        <div class="app-card">
+          <div class="app-icon"><img src="git-icon-logo.svg" alt="Git" /></div>
           <div class="app-name">Git</div>
-          <p class="app-desc">Indispensable pour le versionnement, le suivi des evolutions et une methode de travail propre.</p>
+          <p class="app-desc">Indispensable pour le versionnement, le suivi des évolutions et une méthode de travail propre.</p>
         </div>
-
-        <div class="app-card fade-up delay-3">
-          <div class="app-icon">
-            <img src="github.png" alt="Logo GitHub" />
-          </div>
+        <div class="app-card">
+          <div class="app-icon"><img src="github.png" alt="GitHub" /></div>
           <div class="app-name">GitHub</div>
-          <p class="app-desc">J y centralise mes projets, mon portfolio technique et la collaboration autour de mon code.</p>
+          <p class="app-desc">J'y centralise mes projets, mon portfolio technique et la collaboration autour de mon code.</p>
         </div>
-
-        <div class="app-card fade-up delay-4">
-          <div class="app-icon">
-            <img src="Python-logo-notext.svg.png" alt="Logo Python" />
-          </div>
+        <div class="app-card">
+          <div class="app-icon"><img src="Python-logo-notext.svg.png" alt="Python" /></div>
           <div class="app-name">Python</div>
           <p class="app-desc">La base de mon travail en data, automatisation, backend et intelligence artificielle.</p>
         </div>
-
-        <div class="app-card fade-up delay-1">
-          <div class="app-icon">JP</div>
+        <div class="app-card">
+          <div class="app-icon app-icon-text">JP</div>
           <div class="app-name">Jupyter Notebook</div>
-          <p class="app-desc">Parfait pour l analyse, l experimentation rapide et les notebooks autour de la data.</p>
+          <p class="app-desc">Parfait pour l'analyse, l'expérimentation rapide et les notebooks autour de la data.</p>
         </div>
-
-        <div class="app-card fade-up delay-2">
-          <div class="app-icon">SK</div>
+        <div class="app-card">
+          <div class="app-icon app-icon-text">SK</div>
           <div class="app-name">Scikit-learn</div>
-          <p class="app-desc">Mon outil de reference pour construire, tester et evaluer des modeles de machine learning.</p>
+          <p class="app-desc">Mon outil de référence pour construire, tester et évaluer des modèles de machine learning.</p>
         </div>
-
-        <div class="app-card fade-up delay-3">
-          <div class="app-icon">PG</div>
+        <div class="app-card">
+          <div class="app-icon app-icon-text">PG</div>
           <div class="app-name">PostgreSQL</div>
-          <p class="app-desc">Ma base de donnees principale pour les projets serieux et les usages backend plus pro.</p>
+          <p class="app-desc">Ma base de données principale pour les projets sérieux et les usages backend professionnels.</p>
         </div>
-
-        <div class="app-card fade-up delay-4">
-          <div class="app-icon">MY</div>
-          <div class="app-name">MySQL</div>
-          <p class="app-desc">Un bon complement pour montrer ma polyvalence sur les projets web et les SGBD classiques.</p>
-        </div>
-
-        <div class="app-card fade-up delay-1">
-          <div class="app-icon">DK</div>
+        <div class="app-card">
+          <div class="app-icon app-icon-text">DK</div>
           <div class="app-name">Docker</div>
-          <p class="app-desc">Essentiel pour le deploiement, l isolation des environnements et des setups reproductibles.</p>
+          <p class="app-desc">Essentiel pour le déploiement, l'isolation des environnements et des setups reproductibles.</p>
         </div>
-
-        <div class="app-card fade-up delay-2">
-          <div class="app-icon">LX</div>
+        <div class="app-card">
+          <div class="app-icon app-icon-text">LX</div>
           <div class="app-name">Linux</div>
-          <p class="app-desc">Un environnement central pour developper, administrer un serveur et travailler bas niveau.</p>
+          <p class="app-desc">Un environnement central pour développer, administrer un serveur et travailler bas niveau.</p>
         </div>
-
-        <div class="app-card fade-up delay-3">
-          <div class="app-icon">FG</div>
+        <div class="app-card">
+          <div class="app-icon app-icon-text">FG</div>
           <div class="app-name">Figma</div>
-          <p class="app-desc">Je l utilise pour penser l interface, structurer l experience et prototyper des idees visuelles.</p>
-        </div>
-
-        <div class="app-card fade-up delay-4">
-          <div class="app-icon">TW</div>
-          <div class="app-name">Tailwind CSS</div>
-          <p class="app-desc">Tres pratique pour construire des interfaces front rapides, propres et bien rythmees.</p>
+          <p class="app-desc">Je l'utilise pour penser l'interface, structurer l'expérience et prototyper des idées visuelles.</p>
         </div>
       </div>
     </div>
@@ -567,55 +575,97 @@
 
   <!-- ─── CONTACT ─── -->
   <section id="contact">
+    <div class="orb orb-br"></div>
     <div class="container">
-      <div class="contact-wrapper">
-        <div class="section-header fade-up" style="text-align:center">
-          <span class="section-tag" style="justify-content:center">Contact</span>
-          <h2 class="section-title">Travaillons ensemble</h2>
-          <p class="section-sub" style="margin:0 auto">
-            Recruteur, entreprise en alternance ou contact pro — n'hésitez pas à me joindre.
-          </p>
+      <div class="section-head fade-up">
+        <div class="eyebrow">
+          <div class="eyebrow-line cyan"></div>
+          <span class="eyebrow-label cyan-col">Contact</span>
         </div>
-        <div class="contact-card fade-up delay-1">
-          <div class="contact-grid">
-            <a href="mailto:paul.lamblin@email.com" class="contact-item">
-              <div class="contact-item-icon">✉️</div>
-              <div>
-                <div class="contact-item-label">Email</div>
-                <div class="contact-item-val">paul.lamblin@email.com</div>
+        <h2 class="sec-title">
+          <span class="t-light">Travaillons </span><span class="t-bold">ensemble</span>
+        </h2>
+        <p class="sec-desc">Recruteur, entreprise en alternance ou contact pro — n'hésitez pas à me joindre.</p>
+      </div>
+
+      <div class="contact-layout">
+        <!-- Formulaire -->
+        <div class="fade-up delay-1">
+          <div class="contact-form-card">
+            <form onsubmit="return false;">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="cName">Nom</label>
+                  <input type="text" id="cName" name="name" class="form-input" placeholder="Nom" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cEmail">Email</label>
+                  <input type="email" id="cEmail" name="email" class="form-input" placeholder="Email" required />
+                </div>
               </div>
-            </a>
-            <a href="https://linkedin.com/in/paullamblin" target="_blank" rel="noopener" class="contact-item">
-              <div class="contact-item-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:var(--accent2)"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              <div class="form-group">
+                <label class="form-label" for="cMessage">Message</label>
+                <textarea id="cMessage" name="message" class="form-input form-textarea" placeholder="Message" rows="6" required></textarea>
               </div>
-              <div>
-                <div class="contact-item-label">LinkedIn</div>
-                <div class="contact-item-val">Paul Lamblin</div>
-              </div>
-            </a>
-            <a href="https://github.com/paullamblin" target="_blank" rel="noopener" class="contact-item">
-              <div class="contact-item-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:var(--accent2)"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-              </div>
-              <div>
-                <div class="contact-item-label">GitHub</div>
-                <div class="contact-item-val">github.com/paullamblin</div>
-              </div>
-            </a>
-            <a href="#" class="contact-item">
-              <div class="contact-item-icon">📄</div>
-              <div>
-                <div class="contact-item-label">CV</div>
-                <div class="contact-item-val">Télécharger mon CV</div>
-              </div>
-            </a>
+              <button type="submit" class="btn-submit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Envoyer le message
+              </button>
+            </form>
           </div>
-          <div class="contact-divider"></div>
-          <p style="color:var(--muted);font-size:0.85rem;line-height:1.7">
-            Je réponds généralement sous 24h. Disponible pour discuter d'opportunités d'alternance,
-            de stages, de projets ou simplement pour échanger sur la tech.
-          </p>
+        </div>
+
+        <!-- Info -->
+        <div class="contact-info fade-up delay-2">
+          <div class="contact-info-card">
+            <p class="contact-info-label">Contact direct</p>
+            <div class="contact-links">
+              <a href="mailto:paul.lamblin@email.com" class="contact-link-item">
+                <div class="contact-link-icon emerald-bg">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </div>
+                <div>
+                  <p class="contact-link-meta">Email</p>
+                  <p class="contact-link-val">paul.lamblin@email.com</p>
+                </div>
+              </a>
+              <a href="https://github.com/paullamblin" target="_blank" rel="noopener" class="contact-link-item">
+                <div class="contact-link-icon cyan-bg">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </div>
+                <div>
+                  <p class="contact-link-meta">GitHub</p>
+                  <p class="contact-link-val">github.com/paullamblin</p>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <p class="contact-info-label">Réseaux sociaux</p>
+            <div class="contact-socials">
+              <a href="https://linkedin.com/in/paullamblin" target="_blank" rel="noopener" class="contact-social-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                <span>LinkedIn</span>
+                <svg class="arrow-upright" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+              <a href="https://github.com/paullamblin" target="_blank" rel="noopener" class="contact-social-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <span>GitHub</span>
+                <svg class="arrow-upright" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+              <a href="mailto:paul.lamblin@email.com" class="contact-social-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <span>Email</span>
+                <svg class="arrow-upright" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-avail">
+            <span class="pulse-dot"></span>
+            <span>Disponible pour une alternance</span>
+          </div>
         </div>
       </div>
     </div>
@@ -624,11 +674,9 @@
   <!-- ─── FOOTER ─── -->
   <footer>
     <div class="container">
-      Conçu & développé par <span>Paul Lamblin</span> · 2025
+      Conçu & développé par <strong>Paul Lamblin</strong> · 2025
     </div>
   </footer>
-
-  <!-- ─── JS ─── -->
 
   <script src="js/main.js"></script>
   <script src="js/badge.js"></script>
