@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="8" fill="#050505"/>
+  <text x="4" y="23" font-family="'Space Grotesk', system-ui, sans-serif" font-size="18" font-weight="700" fill="rgba(255,255,255,0.45)">P</text>
+  <text x="17" y="23" font-family="'Space Grotesk', system-ui, sans-serif" font-size="18" font-weight="700" fill="white">L</text>
+</svg>
